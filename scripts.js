@@ -1,5 +1,14 @@
+const GITHUB_API_URL = "https://api.github.com";
+const REPO_OWNER = "abdullah2811"; // Your GitHub username
+const REPO_NAME = "cla3schedule.github.io"; // Your repository name
+const BRANCH = "main"; // The branch where data.json is stored
+const FILE_PATH = "data.json"; // Path to the data.json file in the repository
+const TOKEN = "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"; // Your GitHub PAT
+
+let data = null;
+
 // Fetch data from the GitHub raw URL
-fetch("https://raw.githubusercontent.com/abdullah2811/cla3schedule.github.io/refs/heads/main/data.json")
+fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/${FILE_PATH}`)
   .then(response => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -67,14 +76,13 @@ function enableEditing(section) {
     saveBtn.textContent = 'Save Changes';
     saveBtn.onclick = () => {
       data.bus = {
-        onFromCampus: onFromCampusElement.innerHTML,
-        onToCampus: onToCampusElement.innerHTML,
-        offFromCampus: offFromCampusElement.innerHTML,
-        offToCampus: offToCampusElement.innerHTML,
+        onfromCampus: onFromCampusElement.innerHTML,
+        ontoCampus: onToCampusElement.innerHTML,
+        offfromCampus: offFromCampusElement.innerHTML,
+        offtoCampus: offToCampusElement.innerHTML,
         lastEditedBy: `${name} (ID: ${studentId})`
       };
-      localStorage.setItem('bus', JSON.stringify(data.bus));
-      loadData();
+      updateDataOnGitHub(); // Save changes to GitHub
       saveBtn.remove();
     };
     document.getElementById('bus-content').appendChild(saveBtn);
@@ -90,10 +98,51 @@ function enableEditing(section) {
         content: element.innerHTML,
         lastEditedBy: `${name} (ID: ${studentId})`
       };
-      localStorage.setItem(section, JSON.stringify(data[section]));
-      loadData();
+      updateDataOnGitHub(); // Save changes to GitHub
       saveBtn.remove();
     };
     element.parentNode.appendChild(saveBtn);
   }
+}
+
+// Update data.json on GitHub
+function updateDataOnGitHub() {
+  // Get the current file SHA (required for updating files on GitHub)
+  fetch(`${GITHUB_API_URL}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+    headers: {
+      Authorization: `token ${TOKEN}`
+    }
+  })
+    .then(response => response.json())
+    .then(fileData => {
+      const sha = fileData.sha; // Get the SHA of the current file
+
+      // Prepare the updated file content
+      const updatedContent = {
+        message: "Update data.json via website",
+        content: btoa(JSON.stringify(data, null, 2)), // Encode the updated data in Base64
+        sha: sha
+      };
+
+      // Send the update request to GitHub
+      fetch(`${GITHUB_API_URL}/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(updatedContent)
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(() => {
+          alert("Changes saved to GitHub!");
+        })
+        .catch(error => console.error("Error updating data.json on GitHub:", error));
+    })
+    .catch(error => console.error("Error fetching file SHA from GitHub:", error));
 }
