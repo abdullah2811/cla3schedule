@@ -99,7 +99,7 @@ function enableEditing(section) {
 // Update data.json via the backend
 function updateDataOnBackend() {
   // Send the updated data to the backend server
-  fetch("http://localhost:3000/update-data", {
+  fetch("https://cla3schedule.onrender.com/update-data", { // Replace with your Render backend URL
     method: "POST",
     headers: {
       "Content-Type": "application/json"
