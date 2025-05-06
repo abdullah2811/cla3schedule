@@ -3,7 +3,7 @@ const REPO_OWNER = "abdullah2811"; // Your GitHub username
 const REPO_NAME = "cla3schedule.github.io"; // Your repository name
 const BRANCH = "main"; // The branch where data.json is stored
 const FILE_PATH = "data.json"; // Path to the data.json file in the repository
-const TOKEN = "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"; // Your GitHub PAT
+const TOKEN = "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"; // Your GitHub PAT
 
 let data = null;
 
