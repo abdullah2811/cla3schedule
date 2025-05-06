@@ -1,0 +1,122 @@
+/* Add CSS styling here */
+body { font-family: Arial, sans-serif; margin: 20px; background-color: #d4d1d1; }
+.container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.section { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+.editor-info { font-size: 0.8em; color: #666; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+th { background-color: #f2f2f2; }
+/* Add button styling */
+button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #c40808;
+}
+.days-navigation {
+    margin: 20px 0;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+.day-btn {
+    padding: 8px 15px;
+    background-color: #6d971f;
+    border: none;
+    cursor: pointer;
+}
+
+.day-btn.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.day-schedule {
+    display: none;
+}
+
+.day-schedule.active {
+    display: block;
+}
+
+.bus-schedule-row {
+    max-width: 300px;
+    display: flex;
+    gap: 10px;
+}
+
+.bus-schedule-row > div {
+    flex: 1;
+    border: 1px solid #a7a7a7;
+    background-color: #cdcccc;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.bus-schedule-row h4 {
+    margin-bottom: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.bus-schedule-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Space between On Days and Off Days */
+}
+
+.bus-schedule-section {
+    flex: 1; /* Make both sections take equal width */
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #d8cdcd;
+}
+
+.bus-schedule-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Space between From Campus and To Campus */
+}
+
+.bus-schedule-row > div {
+    flex: 1;
+    border: 1px solid #a7a7a7;
+    background-color: #cdcccc;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bus-schedule-row h4 {
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 700px) {
+    .bus-schedule-container {
+        flex-direction: column; /* Stack On Days and Off Days vertically */
+        gap: 15px; /* Add some spacing between the sections */
+    }
+
+    .bus-schedule-section {
+        width: 100%; /* Make each section take full width */
+    }
+
+    .bus-schedule-row > div {
+        flex: 1; /* Ensure the From Campus and To Campus boxes remain equal width */
+        max-width: 100%; /* Remove the max-width restriction for smaller screens */
+    }
+}

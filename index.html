@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Schedule & Tasks</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="BatchLogo.png" alt="" style="width: 100px; height: 100px; float: left; margin-right: 20px; background-color: #222;">
+    <h1>Class Schedule & Information Portal</h1>
+    
+    <!-- Days Navigation -->
+    <div class="days-navigation">
+        <button class="day-btn active" onclick="showDay('saturday')">Saturday</button>
+        <button class="day-btn" onclick="showDay('sunday')">Sunday</button>
+        <button class="day-btn" onclick="showDay('monday')">Monday</button>
+        <button class="day-btn" onclick="showDay('tuesday')">Tuesday</button>
+        <button class="day-btn" onclick="showDay('wednesday')">Wednesday</button>
+    </div>
+
+    <!-- Daily Schedule Container -->
+    <div id="daily-schedules">
+        <!-- Saturday Table (default visible) -->
+        <div class="day-schedule active" id="saturday">
+            <h2>Saturday Schedule <button onclick="enableEditing('saturday')">Edit</button></h2>
+            <div id="saturday-content"></div>
+            <div class="editor-info" id="saturday-editor"></div>
+        </div>
+
+        <!-- Other days (hidden by default) -->
+        <div class="day-schedule" id="sunday">
+            <h2>Sunday Schedule <button onclick="enableEditing('sunday')">Edit</button></h2>
+            <div id="sunday-content"></div>
+            <div class="editor-info" id="sunday-editor"></div>
+        </div>
+        <div class="day-schedule" id="monday">
+            <h2>Monday Schedule <button onclick="enableEditing('Monday')">Edit</button></h2>
+            <div id="monday-content"></div>
+            <div class="editor-info" id="monday-editor"></div>
+        </div>
+        
+        <div class="day-schedule" id="tuesday">
+            <h2>Tuesday Schedule <button onclick="enableEditing('tuesday')">Edit</button></h2>
+            <div id="tuesday-content"></div>
+            <div class="editor-info" id="tuesday-editor"></div>
+        </div>
+        <div class="day-schedule" id="wednesday">
+            <h2>Wednesday Schedule <button onclick="enableEditing('wednesday')">Edit</button></h2>
+            <div id="wednesday-content"></div>
+            <div class="editor-info" id="wednesday-editor"></div>
+        </div>
+    </div>
+
+    <!-- Tasks & Bus Schedule -->
+    <div class="container">
+        <div class="section">   <!--Upcoming Tasks-->
+            <h2>Upcoming Tasks <button onclick="enableEditing('tasks')">Edit</button></h2>
+            <div id="tasks-content"></div>
+            <div class="editor-info" id="tasks-editor"></div>
+        </div>
+
+        <div class="section">   <!--Bus Schedule-->
+            <h2>Bus Schedule <button onclick="enableEditing('bus')">Edit</button></h2>
+            <div id="bus-content" class="bus-schedule-container">
+                <div class="bus-schedule-section">
+                    <h3>On Days</h3>
+                    <div class="bus-schedule-row">
+                        <div>
+                            <h4>From Campus</h4>
+                            <div id="bus-on-from-campus"></div>
+                        </div>
+                        <div>
+                            <h4>To Campus</h4>
+                            <div id="bus-on-to-campus"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bus-schedule-section">
+                    <h3>Off Days</h3>
+                    <div class="bus-schedule-row">
+                        <div>
+                            <h4>From Campus</h4>
+                            <div id="bus-off-from-campus"></div>
+                        </div>
+                        <div>
+                            <h4>To Campus</h4>
+                            <div id="bus-off-to-campus"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="editor-info" id="bus-editor"></div>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
