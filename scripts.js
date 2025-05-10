@@ -18,30 +18,32 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app); // Initialize Firestore
 
 // Fetch data from Firestore
-async function fetchData() {
-  try {
-    const docRef = doc(db, "schedule", "data"); // "schedule" is the collection, "data" is the document
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      data = docSnap.data(); // Assign the fetched data to the global `data` variable
-      loadData(); // Populate the page with the fetched data
+function loadData() {
+  console.log("Loading data:", data); // Debugging line
+  ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'tasks', 'bus'].forEach(section => {
+    if (section === 'bus') {
+      document.getElementById('bus-on-from-campus').innerHTML = data.bus.onfromCampus;
+      document.getElementById('bus-on-to-campus').innerHTML = data.bus.ontoCampus;
+      document.getElementById('bus-off-from-campus').innerHTML = data.bus.offfromCampus;
+      document.getElementById('bus-off-to-campus').innerHTML = data.bus.offtoCampus;
     } else {
-      console.log("No such document!");
+      document.getElementById(`${section}-content`).innerHTML = data[section].content;
     }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
+
+    document.getElementById(`${section}-editor`).textContent =
+      data[section].lastEditedBy ? `Last edited by: ${data[section].lastEditedBy}` : '';
+  });
 }
 
 // Load saved data into the page
 function loadData() {
+  console.log("Loading data:", data); // Debugging line
   ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'tasks', 'bus'].forEach(section => {
     if (section === 'bus') {
-      document.getElementById('bus-on-from-campus').innerHTML = data.bus.onFromCampus;
-      document.getElementById('bus-on-to-campus').innerHTML = data.bus.onToCampus;
-      document.getElementById('bus-off-from-campus').innerHTML = data.bus.offFromCampus;
-      document.getElementById('bus-off-to-campus').innerHTML = data.bus.offToCampus;
+      document.getElementById('bus-on-from-campus').innerHTML = data.bus.onfromCampus;
+      document.getElementById('bus-on-to-campus').innerHTML = data.bus.ontoCampus;
+      document.getElementById('bus-off-from-campus').innerHTML = data.bus.offfromCampus;
+      document.getElementById('bus-off-to-campus').innerHTML = data.bus.offtoCampus;
     } else {
       document.getElementById(`${section}-content`).innerHTML = data[section].content;
     }
