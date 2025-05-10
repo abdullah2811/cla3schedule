@@ -1,3 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDHAFOwKHAZR9lGOaGtbPEOIa3pLqi1HnM",
@@ -10,19 +13,19 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(app); // Initialize Firestore
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // Fetch data from Firestore
 async function fetchData() {
   try {
-    const docRef = db.collection("schedule").doc("data"); // "schedule" is the collection, "data" is the document
-    const docSnap = await docRef.get();
+    const docRef = doc(db, "schedule", "data");
+    const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists) {
-      const data = docSnap.data(); // Assign the fetched data to a local variable
-      console.log("Fetched data:", data); // Debugging line
-      loadData(data); // Populate the page with the fetched data
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      console.log("Fetched data:", data);
+      loadData(data);
     } else {
       console.log("No such document!");
     }
@@ -33,7 +36,6 @@ async function fetchData() {
 
 // Load saved data into the page
 function loadData(data) {
-  console.log("Loading data:", data); // Debugging line
   ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'tasks', 'bus'].forEach(section => {
     if (section === 'bus') {
       document.getElementById('bus-on-from-campus').innerHTML = data.bus.onfromCampus;
@@ -78,8 +80,8 @@ function enableEditing(section) {
         lastEditedBy: `${name} (ID: ${studentId})`
       };
 
-      await saveDataToFirestore(section, updatedData); // Save changes to Firestore
-      fetchData(); // Reload the data
+      await saveDataToFirestore(section, updatedData);
+      fetchData();
       saveBtn.remove();
     };
     document.getElementById('bus-content').appendChild(saveBtn);
@@ -96,8 +98,8 @@ function enableEditing(section) {
         lastEditedBy: `${name} (ID: ${studentId})`
       };
 
-      await saveDataToFirestore(section, updatedData); // Save changes to Firestore
-      fetchData(); // Reload the data
+      await saveDataToFirestore(section, updatedData);
+      fetchData();
       saveBtn.remove();
     };
     element.parentNode.appendChild(saveBtn);
@@ -107,13 +109,13 @@ function enableEditing(section) {
 // Save data to Firestore
 async function saveDataToFirestore(section, updatedData) {
   try {
-    const docRef = db.collection("schedule").doc("data");
-    const docSnap = await docRef.get();
+    const docRef = doc(db, "schedule", "data");
+    const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists) {
+    if (docSnap.exists()) {
       const currentData = docSnap.data();
-      currentData[section] = updatedData; // Update the specific section
-      await docRef.set(currentData); // Save the updated data to Firestore
+      currentData[section] = updatedData;
+      await setDoc(docRef, currentData);
       alert("Changes saved successfully!");
     } else {
       console.log("No such document to update!");
@@ -123,22 +125,18 @@ async function saveDataToFirestore(section, updatedData) {
   }
 }
 
-// Show the selected day's schedule
+// Show a selected day's schedule
 function showDay(day) {
-  // Hide all day schedules
-  document.querySelectorAll('.day-schedule').forEach(el => {
-    el.classList.remove('active');
-  });
-
-  // Show the selected day
+  document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
   document.getElementById(day).classList.add('active');
-
-  // Update active button
   document.querySelectorAll('.day-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.textContent.toLowerCase() === day) btn.classList.add('active');
+    btn.classList.toggle('active', btn.textContent.toLowerCase() === day);
   });
 }
 
-// Fetch data when the page loads
+// Load everything on page load
 fetchData();
+
+// Make global access to enableEditing and showDay
+window.enableEditing = enableEditing;
+window.showDay = showDay;
