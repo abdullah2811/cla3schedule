@@ -1,5 +1,5 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -125,12 +125,20 @@ async function saveDataToFirestore(section, updatedData) {
   }
 }
 
-// Show a selected day's schedule
+// Show the selected day's schedule
 function showDay(day) {
-  document.querySelectorAll('.day-schedule').forEach(el => el.classList.remove('active'));
+  // Hide all day schedules
+  document.querySelectorAll('.day-schedule').forEach(el => {
+    el.classList.remove('active');
+  });
+
+  // Show the selected day
   document.getElementById(day).classList.add('active');
+
+  // Update active button
   document.querySelectorAll('.day-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.toLowerCase() === day);
+    btn.classList.remove('active');
+    if (btn.textContent.toLowerCase() === day) btn.classList.add('active');
   });
 }
 
