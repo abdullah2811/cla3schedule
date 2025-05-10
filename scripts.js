@@ -10,8 +10,8 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(); // Initialize Firestore
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(app); // Initialize Firestore
 
 // Fetch data from Firestore
 async function fetchData() {
@@ -46,23 +46,6 @@ function loadData(data) {
 
     document.getElementById(`${section}-editor`).textContent =
       data[section].lastEditedBy ? `Last edited by: ${data[section].lastEditedBy}` : '';
-  });
-}
-
-// Show the selected day's schedule
-function showDay(day) {
-  // Hide all day schedules
-  document.querySelectorAll('.day-schedule').forEach(el => {
-    el.classList.remove('active');
-  });
-
-  // Show the selected day
-  document.getElementById(day).classList.add('active');
-
-  // Update active button
-  document.querySelectorAll('.day-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.textContent.toLowerCase() === day) btn.classList.add('active');
   });
 }
 
