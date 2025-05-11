@@ -120,3 +120,84 @@ button:hover {
         max-width: 100%; /* Remove the max-width restriction for smaller screens */
     }
 }
+
+/* Dark Mode Button */
+#dark-mode-toggle {
+    background-color: transparent; /* Transparent background */
+    border: none; /* Remove border */
+    cursor: pointer; /* Pointer cursor for better UX */
+    position: absolute; /* Position it freely */
+    top: 20px; /* Adjust position */
+    right: 20px; /* Adjust position */
+    padding: 5px; /* Add some padding */
+    z-index: 1000; /* Ensure it stays on top */
+}
+
+#dark-mode-toggle img {
+    width: 30px; /* Adjust the size of the icon */
+    height: 30px;
+    transition: transform 0.3s ease; /* Add a hover effect */
+}
+
+#dark-mode-toggle:hover img {
+    transform: scale(1.2); /* Slightly enlarge the icon on hover */
+}
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode .section {
+    background-color: #1e1e1e;
+    border-color: #333;
+}
+
+body.dark-mode table {
+    background-color: #1e1e1e;
+    color: #faf8f8;
+}
+
+body.dark-mode th {
+    background-color: #333;
+}
+
+body.dark-mode button {
+    background-color: #444;
+    color: #ffffff;
+}
+
+body.dark-mode button:hover {
+    background-color: #666;
+}
+
+body.dark-mode .day-btn.active {
+    background-color: #555;
+}
+/* Dark mode styles for bus schedule */
+body.dark-mode .bus-schedule-container {
+    background-color: #1e1e1e; /* Dark background for the container */
+}
+
+body.dark-mode .bus-schedule-section {
+    background-color: #2a2a2a; /* Slightly lighter background for sections */
+    border-color: #444; /* Darker border color */
+    color: #ffffff; /* White text color */
+}
+
+body.dark-mode .bus-schedule-row > div {
+    background-color: #333; /* Darker background for individual rows */
+    border-color: #555; /* Darker border color */
+    color: #ffffff; /* White text color */
+}
+
+body.dark-mode .bus-schedule-row h4 {
+    color: #ffffff; /* White text for headings */
+}
+
+/* Change dark mode button background when dark mode is active */
+body.dark-mode #dark-mode-toggle {
+    background-color: white; /* White background for the button */
+    border-radius: 50%; /* Optional: Make it circular */
+}
+
