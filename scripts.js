@@ -142,6 +142,25 @@ function showDay(day) {
   });
 }
 
+// Dark mode toggle
+const darkModeToggle = document.getElementById('dark-mode-toggle');
+
+// Check if dark mode is already enabled in localStorage
+if (localStorage.getItem('dark-mode') === 'enabled') {
+    document.body.classList.add('dark-mode');
+}
+
+// Add event listener to the toggle button
+darkModeToggle.addEventListener('click', () => {
+    const isDarkMode = document.body.classList.toggle('dark-mode');
+    // Save the user's preference in localStorage
+    if (isDarkMode) {
+        localStorage.setItem('dark-mode', 'enabled');
+    } else {
+        localStorage.setItem('dark-mode', 'disabled');
+    }
+});
+
 // Load everything on page load
 fetchData();
 
