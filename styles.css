@@ -18,7 +18,7 @@ button {
 }
 
 #resources-btn {
-    background-color: #3e2598;
+    background-color: #507c4c;
     color: rgb(230, 222, 222);
     border: none;
     padding: 8px 18px;
@@ -28,17 +28,17 @@ button {
     transition: background 0.2s;
 }
 #resources-btn:hover {
-    background-color: #b18111;
+    background-color: #264858;
 }
 
 /* Dark mode style for the resources button only */
 body.dark-mode #resources-btn {
-    background-color: #0e72d7;
+    background-color: #052545;
     color: #fffbe7;
 }
 
 body.dark-mode #resources-btn:hover {
-    background-color: #bc145d;
+    background-color: #3d2b53;
     color: #fff;
 }
 
