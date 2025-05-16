@@ -17,6 +17,31 @@ button {
     cursor: pointer;
 }
 
+#resources-btn {
+    background-color: #3e2598;
+    color: rgb(230, 222, 222);
+    border: none;
+    padding: 8px 18px;
+    border-radius: 30px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#resources-btn:hover {
+    background-color: #b18111;
+}
+
+/* Dark mode style for the resources button only */
+body.dark-mode #resources-btn {
+    background-color: #0e72d7;
+    color: #fffbe7;
+}
+
+body.dark-mode #resources-btn:hover {
+    background-color: #bc145d;
+    color: #fff;
+}
+
 button:hover {
     background-color: #c40808;
 }
