@@ -1,34 +1,138 @@
-/* Add CSS styling here */
-body { font-family: Arial, sans-serif; margin: 20px; background-color: #d4d1d1; }
-.container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.section { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
-.editor-info { font-size: 0.8em; color: #666; }
-table { width: 100%; border-collapse: collapse; }
-th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-th { background-color: #f2f2f2; }
-/* Add button styling */
+/* Enhanced Light Mode Styling */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    margin: 20px; 
+    background: linear-gradient(135deg, #667eea 0%, #36062f 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 20px; 
+}
+
+.section { 
+    border: none;
+    padding: 20px; 
+    margin: 10px 0; 
+    background: rgb(232, 244, 244);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Enhanced Main Title Styling */
+h1 {
+    font-size: 2.3em;
+    font-weight: 700;
+    background: linear-gradient(135deg, #222534 0%, #764ba2 50%, #e72626 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 20px 0 30px 0;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    line-height: 1.2;
+    animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    from {
+        filter: drop-shadow(0 0 5px rgb(255, 255, 255));
+    }
+    to {
+        filter: drop-shadow(0 0 8px rgb(16, 184, 235));
+    }
+}
+
+.editor-info { 
+    font-size: 0.8em; 
+    color: #4d0303;
+    font-weight: 600;
+}
+
+body.dark-mode .editor-info { 
+    color: #f3aeae;
+    font-weight: 600;
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+th, td { 
+    border: none;
+    padding: 12px 8px; 
+    text-align: left; 
+    border-bottom: 1px solid rgba(77, 237, 66, 0.2);
+    text-align: center;
+}
+
+td { 
+    background-color: rgb(212, 245, 245);
+    color: #4a5568;
+    font-weight: 500;
+}
+
+body.dark-mode td { 
+    background-color: rgba(30, 35, 60, 0.8);
+    color: #e0e6ed;
+    font-weight: 500;
+}
+
+th { 
+    background: linear-gradient(135deg, #667eea 0%, #22053e 100%);
+    color: rgb(159, 223, 227);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 5px;
+}
+/* Enhanced Button Styling */
 button {
-    padding: 5px 10px;
+    padding: 8px 16px;
     margin: 0 5px;
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #667eea 0%, #000000 100%);
     color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    background: linear-gradient(135deg, #050009 0%, #667eea 100%);
 }
 
 #resources-btn {
-    background-color: #507c4c;
-    color: rgb(230, 222, 222);
+    background: linear-gradient(135deg, #03192d 0%, #00f2fe 100%);
+    color: white;
     border: none;
-    padding: 8px 18px;
+    padding: 10px 20px;
     border-radius: 30px;
     font-size: 1em;
     cursor: pointer;
-    transition: background 0.2s;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
 }
+
 #resources-btn:hover {
-    background-color: #264858;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+    background: linear-gradient(135deg, #00f2fe 0%, #03192d 100%);
 }
 
 /* Dark mode style for the resources button only */
@@ -42,26 +146,36 @@ body.dark-mode #resources-btn:hover {
     color: #fff;
 }
 
-button:hover {
-    background-color: #c40808;
-}
 .days-navigation {
     margin: 20px 0;
     display: flex;
-    gap: 5px;
+    gap: 8px;
     flex-wrap: wrap;
 }
 
 .day-btn {
-    padding: 8px 15px;
-    background-color: #6d971f;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.9);
     border: none;
     cursor: pointer;
+    border-radius: 25px;
+    color: #000000;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.day-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    background: rgba(255, 255, 255, 1);
 }
 
 .day-btn.active {
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #750606 0%, #764ba2 100%);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
 }
 
 .day-schedule {
@@ -72,77 +186,98 @@ button:hover {
     display: block;
 }
 
-.bus-schedule-row {
-    max-width: 300px;
+.bus-schedule-container {
     display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.bus-schedule-section {
+    flex: 1;
+    border: none;
+    padding: 15px;
+    background: rgb(212, 245, 245);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(171, 175, 235, 0.37);
+    backdrop-filter: blur(4px);
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.bus-schedule-section h3 {
+    color: #667eea;
+    margin-top: 0;
+    font-weight: 600;
+    text-align: center;
+}
+
+.bus-schedule-row {
+    display: flex;
+    justify-content: space-between;
     gap: 10px;
 }
 
 .bus-schedule-row > div {
     flex: 1;
-    border: 1px solid #a7a7a7;
-    background-color: #cdcccc;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-.bus-schedule-row h4 {
-    margin-bottom: 10px;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-}
-
-.bus-schedule-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px; /* Space between On Days and Off Days */
-}
-
-.bus-schedule-section {
-    flex: 1; /* Make both sections take equal width */
-    border: 1px solid #ddd;
-    padding: 10px;
-    background-color: #d8cdcd;
-}
-
-.bus-schedule-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px; /* Space between From Campus and To Campus */
-}
-
-.bus-schedule-row > div {
-    flex: 1;
-    border: 1px solid #a7a7a7;
-    background-color: #cdcccc;
-    padding: 10px;
+    border: none;
+    background: rgb(217, 252, 252);
+    padding: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
 }
 
 .bus-schedule-row h4 {
     margin-bottom: 10px;
     font-size: 1em;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.schedule-times {
+    text-align: center;
+}
+
+.schedule-times p {
+    margin: 8px 0;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+    border-radius: 8px;
+    color: #4a5568;
+    font-weight: 500;
+    border-left: 3px solid #667eea;
+    transition: all 0.3s ease;
+}
+
+.schedule-times p:hover {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.25) 0%, rgba(118, 75, 162, 0.25) 100%);
+    transform: translateX(3px);
 }
 
 /* Media query for smaller screens */
 @media (max-width: 600px) {
     .bus-schedule-container {
-        flex-direction: column; /* Stack On Days and Off Days vertically */
-        gap: 15px; /* Add some spacing between the sections */
+        flex-direction: column;
+        gap: 15px;
+        overflow: hidden;
     }
 
     .bus-schedule-section {
-        width: 100%; /* Make each section take full width */
+        width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
     }
 
     .bus-schedule-row > div {
-        flex: 1; /* Ensure the From Campus and To Campus boxes remain equal width */
-        max-width: 100%; /* Remove the max-width restriction for smaller screens */
+        flex: 1;
+        max-width: 100%;
+        box-sizing: border-box;
+        min-width: 0;
     }
 
     .container {
@@ -175,62 +310,341 @@ button:hover {
 #dark-mode-toggle:hover img {
     transform: scale(1.2); /* Slightly enlarge the icon on hover */
 }
-/* Dark mode styles */
+/* Enhanced Dark Mode Styles */
 body.dark-mode {
-    background-color: #121212;
-    color: #ffffff;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 100%);
+    color: #e0e6ed;
+    min-height: 100vh;
+}
+
+/* Enhanced Dark Mode Title */
+body.dark-mode h1 {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f7f5f6 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: teal;
+    animation: titleGlowDark 1s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlowDark {
+    from {
+        filter: drop-shadow(0 0 1px rgb(216, 216, 5));
+    }
+    to {
+        filter: drop-shadow(0 0 2px rgb(216, 216, 5));
+    }
+}
+
+body.dark-mode .body {
+    background: transparent;
+    color: #e0e6ed;
 }
 
 body.dark-mode .section {
-    background-color: #1e1e1e;
-    border-color: #333;
+    background: rgba(20, 25, 40, 0.85);
+    border: 1px solid rgba(65, 105, 225, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
 }
 
 body.dark-mode table {
-    background-color: #1e1e1e;
-    color: #faf8f8;
+    background: rgba(25, 30, 50, 0.9);
+    color: #e0e6ed;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 body.dark-mode th {
-    background-color: #333;
+    background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+    color: #93c5fd;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+body.dark-mode td {
+    border-bottom: 1px solid rgba(75, 85, 99, 0.3);
+    color: #d1d5db;
 }
 
 body.dark-mode button {
-    background-color: #444;
-    color: #ffffff;
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    color: #e5e7eb;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode button:hover {
-    background-color: #666;
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    transform: translateY(-5px);
 }
 
 body.dark-mode .day-btn.active {
-    background-color: #555;
+    background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.5);
 }
-/* Dark mode styles for bus schedule */
+
+/* Enhanced Dark mode styles for bus schedule */
 body.dark-mode .bus-schedule-container {
-    background-color: #1e1e1e; /* Dark background for the container */
+    background: transparent;
 }
 
 body.dark-mode .bus-schedule-section {
-    background-color: #2a2a2a; /* Slightly lighter background for sections */
-    border-color: #444; /* Darker border color */
-    color: #ffffff; /* White text color */
+    background: rgba(30, 35, 60, 0.8);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    color: #e0e6ed;
 }
 
 body.dark-mode .bus-schedule-row > div {
-    background-color: #333; /* Darker background for individual rows */
-    border-color: #555; /* Darker border color */
-    color: #ffffff; /* White text color */
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    color: #e0e6ed;
+    backdrop-filter: blur(3px);
 }
 
 body.dark-mode .bus-schedule-row h4 {
-    color: #ffffff; /* White text for headings */
+    color: #60a5fa;
+    font-weight: 600;
 }
 
-/* Change dark mode button background when dark mode is active */
+body.dark-mode .bus-schedule-section h3 {
+    color: #93c5fd;
+}
+
+body.dark-mode .schedule-times p {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
+    color: #d1d5db;
+    border-left: 3px solid #3b82f6;
+}
+
+body.dark-mode .schedule-times p:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(147, 51, 234, 0.3) 100%);
+    color: #f3f4f6;
+}
+
+/* Enhanced dark mode button styling */
 body.dark-mode #dark-mode-toggle {
-    background-color: white; /* White background for the button */
-    border-radius: 50%; /* Optional: Make it circular */
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
+/* Live Info Widget - positioned in top-right corner */
+.info-widget {
+    position: fixed;
+    top: 15px;
+    right: 70px;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 10px 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.4),    /* Top shadow */
+                -8px 0 30px rgba(0, 0, 0, 0.4);    /* Left shadow */
+    z-index: 1000;
+    animation: slideInWidget 0.6s ease-out;
+    min-width: 450px;
+}
+
+@keyframes slideInWidget {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.widget-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 8px;
+}
+
+.widget-icon {
+    font-size: 1.4em;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.widget-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.widget-label {
+    font-size: 0.75em;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.widget-value {
+    font-size: 0.95em;
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.widget-subtext {
+    font-size: 0.7em;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.1;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Make bus text bold */
+.bus-widget .widget-value,
+.bus-widget .widget-subtext {
+    font-weight: 700;
+    color: #fff !important;
+    font-size: 0.95em !important;
+}
+
+.widget-divider {
+    width: 1px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 10px;
+}
+
+/* Dark mode adjustments for widget */
+body.dark-mode .info-widget {
+    background: rgba(20, 20, 20, 0.9);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.6),    /* Top shadow */
+                8px 0 30px rgba(0, 0, 0, 0.6),     /* Right shadow */
+                -8px 0 30px rgba(0, 0, 0, 0.6);    /* Left shadow */
+}
+
+body.dark-mode .widget-icon {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-mode .widget-item {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Mobile positioning - below resource buttons */
+.mobile-widget-container {
+    display: none;
+}
+
+/* Responsive behavior for widget */
+@media (max-width: 1200px) {
+    .info-widget {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 15px auto 20px auto;
+        min-width: auto;
+        width: calc(100% - 40px);
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Hide the fixed widget on mobile */
+    .info-widget {
+        position: static;
+        margin: 15px auto;
+        width: calc(100% - 40px);
+        max-width: none;
+        background: rgba(0, 0, 0, 0.85);
+        box-shadow: 0 -8px 10px rgba(0, 0, 0, 0.5),    /* Top shadow */
+                    8px 0 10px rgba(0, 0, 0, 0.5),     /* Right shadow */
+                    -8px 0 10px rgba(0, 0, 0, 0.5);    /* Left shadow */
+        padding: 15px 20px 15px 20px;
+        border-radius: 15px;
+        min-width: auto;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: space-around;
+    }
+    
+    .widget-item {
+        flex: 1;
+        min-width: calc(33.333% - 10px);
+        gap: 8px;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        text-align: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .widget-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 1.3em;
+        margin-bottom: 4px;
+    }
+    
+    .widget-content {
+        align-items: center;
+        text-align: center;
+    }
+    
+    .widget-divider {
+        display: none;
+    }
+    
+    .widget-subtext {
+        max-width: none;
+        white-space: normal;
+        text-align: center;
+        font-size: 0.75em;
+    }
+    
+    .widget-value {
+        font-size: 1em;
+        margin-bottom: 2px;
+    }
+    
+    .widget-label {
+        font-size: 0.8em;
+        margin-bottom: 4px;
+    }
+}
+
+/* Extra small screens - ensure proper spacing on all sides */
+@media (max-width: 480px) {
+    .info-widget {
+        margin: 15px auto !important;
+        width: calc(100% - 30px) !important;
+        padding: 12px 15px;
+    }
+    
+    .widget-item {
+        min-width: calc(33.333% - 8px);
+        padding: 6px;
+    }
+    
+    .widget-value {
+        font-size: 0.9em;
+    }
+    
+    .widget-subtext {
+        font-size: 0.7em;
+    }
+}
