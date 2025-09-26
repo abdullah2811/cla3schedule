@@ -14,7 +14,48 @@ body {
 }
 
 .section { 
-    border: none;
+    borde.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    padding: 0 60px; /* Add padding to avoid dark mode toggle */
+    box-sizing: border-box;
+}
+
+/* Responsive button layout to avoid toggle button */
+@media (max-width: 900px) {
+    .action-buttons {
+        padding: 0 70px; /* More padding on medium screens */
+    }
+}
+
+@media (max-width: 600px) {
+    .action-buttons {
+        padding: 0 20px; /* Less padding on mobile, buttons will wrap */
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    #resources-btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Specific fix for the problem size range */
+@media (max-width: 800px) and (min-width: 601px) {
+    .action-buttons {
+        padding: 0 80px; /* Extra padding to avoid toggle button */
+        justify-content: center;
+    }
+    
+    #resources-btn {
+        flex: 0 1 auto;
+        max-width: 180px;
+    }
+};
     padding: 20px; 
     margin: 10px 0; 
     background: rgb(232, 244, 244);
@@ -366,8 +407,8 @@ body.dark-mode h1 {
 .action-buttons {
     display: flex;
     justify-content: left;
-    gap: 15px;
-    margin: 20px 0;
+    gap: 5px;
+    margin: 0px 0;
     flex-wrap: wrap;
 }
 
@@ -693,11 +734,16 @@ body.dark-mode .widget-icon {
     .action-buttons {
         gap: 10px;
         margin: 15px 0;
+        padding: 0 20px; /* Override padding for mobile */
+        flex-direction: column;
+        align-items: center;
     }
     
     #resources-btn {
         padding: 12px 18px;
         font-size: 0.95em;
+        width: 100%;
+        max-width: 200px;
     }
 }
 
@@ -721,15 +767,18 @@ body.dark-mode .widget-icon {
     }
     
     .action-buttons {
-        padding: 0 10px;
+        padding: 0 15px;
         gap: 8px;
         margin: 10px 0;
+        flex-direction: column;
+        align-items: center;
     }
     
     #resources-btn {
         padding: 10px 14px;
         font-size: 0.9em;
-        min-width: 120px;
+        width: 100%;
+        max-width: 180px;
     }
     
     .info-widget {
