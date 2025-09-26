@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    
+    <div class="action-buttons">
+        <button id="resources-btn" onclick="window.open('https://nexus20.web.app/')">
+            📚 Materials
+        </button>
+        <button id="resources-btn" onclick="window.open('https://nexumroutine.netlify.app/')">
+            📚 Exam Routine
+        </button>
+    </div>
+    
     <button id="dark-mode-toggle" class="dark-mode"><img src="dark_mode.png" alt="Dark Mode" width="30px"></button><br><br>
     <!-- Live Info Widget in top-right corner -->
     <div class="info-widget">
@@ -41,15 +51,14 @@
             </div>
         </div>
     </div>
-    
-    <img src="BatchLogo.png" alt="" style="width: 100px; height: 100px; float: left; margin-right: 20px; background-color: #222;">
-    <h1>Class Schedule & Information Portal</h1>
-    <button id="resources-btn" onclick="window.open('https://nexus20.web.app/')">
-        📚 Materials
-    </button>
-    <button id="resources-btn" onclick="window.open('https://nexumroutine.netlify.app/')">
-        📚 Exam Routine
-    </button>
+    <br>
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="header-content">
+            <img src="BatchLogo.png" alt="Nexus Logo" class="header-logo">
+            <h1>Class Schedule & Information Portal</h1>
+        </div>
+    </header>    
     
     <!-- Days Navigation -->
     <div class="days-navigation">

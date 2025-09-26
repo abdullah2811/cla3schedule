@@ -28,7 +28,7 @@ body {
 h1 {
     font-size: 2.3em;
     font-weight: 700;
-    background: linear-gradient(135deg, #222534 0%, #764ba2 50%, #e72626 100%);
+    background: linear-gradient(135deg, #222534 0%, #764ba2 50%, #4e0000 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -296,7 +296,7 @@ body.dark-mode #resources-btn:hover {
     cursor: pointer; /* Pointer cursor for better UX */
     position: absolute; /* Position it freely */
     top: 20px; /* Adjust position */
-    right: 20px; /* Adjust position */
+    right: 10px; /* Adjust position */
     padding: 5px; /* Add some padding */
     z-index: 1000; /* Ensure it stays on top */
 }
@@ -333,6 +333,42 @@ body.dark-mode h1 {
     to {
         filter: drop-shadow(0 0 2px rgb(216, 216, 5));
     }
+}
+
+/* Header Section Styling */
+.main-header {
+    margin: 20px 0 30px 0;
+    clear: both;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.header-logo {
+    width: 100px;
+    height: 100px;
+    background-color: #222;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.header-logo:hover {
+    transform: scale(1.05);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: left;
+    gap: 15px;
+    margin: 20px 0;
+    flex-wrap: wrap;
 }
 
 body.dark-mode .body {
@@ -427,8 +463,18 @@ body.dark-mode .schedule-times p:hover {
 /* Enhanced dark mode button styling */
 body.dark-mode #dark-mode-toggle {
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-radius: 50%;
+    border-radius: 20%;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode header styling */
+body.dark-mode .header-logo {
+    background-color: #374151;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .header-logo:hover {
+    box-shadow: 0 6px 25px rgba(59, 130, 246, 0.3);
 }
 
 /* Live Info Widget - positioned in top-right corner */
@@ -540,10 +586,6 @@ body.dark-mode .widget-icon {
     background: rgba(255, 255, 255, 0.15);
 }
 
-body.dark-mode .widget-item {
-    background: rgba(255, 255, 255, 0.08);
-}
-
 /* Mobile positioning - below resource buttons */
 .mobile-widget-container {
     display: none;
@@ -625,10 +667,71 @@ body.dark-mode .widget-item {
         font-size: 0.8em;
         margin-bottom: 4px;
     }
+    
+    /* Mobile Header Improvements */
+    .main-header {
+        margin: 10px 0 20px 0;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .header-logo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+        margin: 10px 0;
+        line-height: 1.1;
+    }
+    
+    .action-buttons {
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    #resources-btn {
+        padding: 12px 18px;
+        font-size: 0.95em;
+    }
 }
 
 /* Extra small screens - ensure proper spacing on all sides */
 @media (max-width: 480px) {
+    /* Ultra mobile header optimizations */
+    .main-header {
+        margin: 5px 0 15px 0;
+    }
+    
+    .header-logo {
+        width: 70px;
+        height: 70px;
+    }
+    
+    h1 {
+        font-size: 2.2em;
+        margin: 8px 0;
+        padding: 0 10px;
+        word-break: break-word;
+    }
+    
+    .action-buttons {
+        padding: 0 10px;
+        gap: 8px;
+        margin: 10px 0;
+    }
+    
+    #resources-btn {
+        padding: 10px 14px;
+        font-size: 0.9em;
+        min-width: 120px;
+    }
+    
     .info-widget {
         margin: 15px auto !important;
         width: calc(100% - 30px) !important;
