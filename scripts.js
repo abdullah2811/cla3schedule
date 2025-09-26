@@ -378,15 +378,15 @@ function getNextBuses() {
     
     // Format the display
     if (nextToCampus) {
-        toCampusElement.textContent = `To: ${nextToCampus}`;
+        toCampusElement.textContent = `To Campus: ${nextToCampus}`;
     } else {
-        toCampusElement.textContent = 'To: No more buses';
+        toCampusElement.textContent = 'To Campus: No more buses today';
     }
     
     if (nextFromCampus) {
-        fromCampusElement.textContent = `From: ${nextFromCampus}`;
+        fromCampusElement.textContent = `From Campus: ${nextFromCampus}`;
     } else {
-        fromCampusElement.textContent = 'From: No more buses';
+        fromCampusElement.textContent = 'From Campus: No more buses today';
     }
 }
 
