@@ -6,17 +6,15 @@
     <title>Class Schedule & Tasks</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>    
+<body>
     <div class="action-buttons">
-        <button id="resources-btn" onclick="window.open('https://nexus20.web.app/')">
-            🧰 Class Materials
-        </button>
-        <button id="resources-btn" onclick="window.open('https://nexumroutine.netlify.app/')">
-            🎃 Exam Routine
-        </button>
-        <button id="resources-btn" onclick="window.open('https://web-mbstu-wheels.codephiliciv.me/')">
-            🚇 MBSTU Wheels
-        </button>
+        <button id="main-resource-btn">Additional Links</button>
+        <div id="resource-popup" class="resource-popup">
+            <button class="resource-btn" onclick="window.open('https://cse.mbstu.ac.bd/')">🏫 CSE MBSTU</button>
+            <button class="resource-btn" onclick="window.open('https://nexus20.web.app/')">🧰 Class Materials</button>
+            <button class="resource-btn" onclick="window.open('https://nexumroutine.netlify.app/')">🎃 Exam Routine</button>
+            <button class="resource-btn" onclick="window.open('https://web-mbstu-wheels.codephiliciv.me/')">🚇 MBSTU Wheels</button>
+        </div>
     </div>
     
     <div><button id="dark-mode-toggle" class="dark-mode"><img src="dark_mode.png" alt="Dark Mode" width="30px"></button><br><br></div>
@@ -148,6 +146,41 @@
             <div class="editor-info" id="bus-editor"></div>
         </div>
     </div>
+    
+    <!-- Smart Footer Section -->
+    <footer class="smart-footer">
+        <div class="footer-container">
+            <div class="footer-section footer-brand">
+                <div class="footer-logo">
+                    <img src="BatchLogo.png" alt="Nexus Logo" class="footer-logo-img">
+                    <h3>cla3schedule</h3>
+                </div>
+                <p class="footer-tagline">Real-time class schedules, bus timings, and task management for Computer Science & Engineering students at MBSTU.</p>
+            </div>            
+            
+            <div class="footer-section footer-tech">
+                <h4>⚡ Built With</h4>
+                <div class="tech-stack">
+                    <span class="tech-badge">HTML5</span>
+                    <span class="tech-badge">CSS3</span>
+                    <span class="tech-badge">JavaScript</span>
+                    <span class="tech-badge">Firebase</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-divider"></div>
+        
+        <div class="footer-bottom">
+            <div class="footer-links">
+                <span class="footer-link" onclick="window.open('https://github.com/abdullah2811')" title="Find Me on GitHub">🔗 GitHub</span>
+                <span class="footer-separator">•</span>
+                <span class="footer-link" onclick="window.open('https://www.linkedin.com/in/abdullahcsembstu2811/')" title="Find Me on LinkedIn">🔗 LinkedIn</span>
+                <span class="footer-separator">•</span>
+                <span class="footer-version" title="Last updated: September 2025">v2.0 🚀</span>
+            </div>
+        </div>
+    </footer>
     
     <script type="module" src="scripts.js"></script>
 </body>

@@ -13,49 +13,148 @@ body {
     gap: 20px; 
 }
 
-.section { 
-    borde.action-buttons {
+.action-buttons {
+    position: relative;
     display: flex;
-    justify-content: center;
+    align-items: flex-start;
     gap: 15px;
     margin: 20px 0;
-    flex-wrap: wrap;
-    padding: 0 60px; /* Add padding to avoid dark mode toggle */
+    padding: 0 60px;
     box-sizing: border-box;
 }
 
-/* Responsive button layout to avoid toggle button */
-@media (max-width: 900px) {
-    .action-buttons {
-        padding: 0 70px; /* More padding on medium screens */
-    }
+#main-resource-btn {
+    background: linear-gradient(135deg, #03192d 0%, #9158b3 100%);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+    text-shadow: #000000 1px 1px 2px;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+#main-resource-btn:hover {
+    background: linear-gradient(135deg, #9158b3 0%, #03192d 100%);
+    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+}
+
+.resource-popup {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: beige;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    padding: 24px 20px;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95) translateY(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.resource-popup.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1) translateY(0);
+}
+
+.resource-popup .resource-btn {
+    background: linear-gradient(135deg, #03192d 0%, #9158b3 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1em;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.2);
+    margin: 0;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.resource-popup .resource-btn:hover {
+    background: linear-gradient(135deg, #9158b3 0%, #03192d 100%);
+    box-shadow: 0 4px 16px rgba(79, 172, 254, 0.3);
+}
+
+/* Dark mode styles for resource popup */
+body.dark-mode .resource-popup {
+    background: rgba(20, 25, 45, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode #main-resource-btn {
+    background: linear-gradient(135deg, #052545 0%, #00a8cc 100%);
+    color: #fffbe7;
+}
+
+body.dark-mode #main-resource-btn:hover {
+    background: linear-gradient(135deg, #00a8cc 0%, #052545 100%);
 }
 
 @media (max-width: 600px) {
-    .action-buttons {
-        padding: 0 20px; /* Less padding on mobile, buttons will wrap */
-        flex-direction: column;
-        align-items: center;
+    .resource-popup {
+        left: 50%;
+        top: 50px;
+        transform: translateX(-50%) scale(0.95) translateY(-10px);
+        width: 90vw;
+        padding: 18px 8px;
     }
-    
-    #resources-btn {
-        width: 100%;
-        max-width: 200px;
+    .resource-popup.show {
+        transform: translateX(-50%) scale(1) translateY(0);
     }
 }
 
-/* Specific fix for the problem size range */
-@media (max-width: 800px) and (min-width: 601px) {
+.section { 
+    border: none;
+    padding: 20px; 
+    margin: 10px 0; 
+    background: rgb(232, 244, 244);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Responsive button layout to avoid toggle button */
+@media (max-width: 1200px) {
     .action-buttons {
-        padding: 0 80px; /* Extra padding to avoid toggle button */
-        justify-content: center;
+        padding: 0 40px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 900px) {
+    .action-buttons {
+        padding: 0 60px;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 700px) {
+    .action-buttons {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+        gap: 10px;
     }
     
-    #resources-btn {
-        flex: 0 1 auto;
-        max-width: 180px;
+    .resource-btn {
+        max-width: 100%;
+        min-width: 200px;
     }
-};
+}
+
+.section { 
+    border: none;
     padding: 20px; 
     margin: 10px 0; 
     background: rgb(232, 244, 244);
@@ -410,8 +509,9 @@ body.dark-mode {
 .action-buttons {
     display: flex;
     justify-content: left;
+    
     gap: 5px;
-    margin: 0px 0;
+    margin: 0px 500px 0px 0px;
     flex-wrap: wrap;
 }
 
@@ -455,6 +555,19 @@ body.dark-mode button:hover {
     background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     transform: translateY(-5px);
+}
+
+body.dark-mode .resource-btn {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    color: #e5e7eb;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .resource-btn:hover {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+    transform: translateY(-2px);
 }
 
 body.dark-mode .day-btn.active {
@@ -738,18 +851,16 @@ body.dark-mode .widget-icon {
     }
     
     .action-buttons {
-        gap: 10px;
+        gap: 8px;
         margin: 15px 0;
-        padding: 0 20px; /* Override padding for mobile */
-        flex-direction: column;
-        align-items: center;
+        padding: 0 20px;
+        grid-template-columns: 1fr;
     }
     
-    #resources-btn {
+    .resource-btn {
         padding: 12px 18px;
         font-size: 0.95em;
-        width: 100%;
-        max-width: 200px;
+        min-width: 180px;
     }
 }
 
@@ -804,5 +915,234 @@ body.dark-mode .widget-icon {
     
     .widget-subtext {
         font-size: 0.7em;
+    }
+}
+
+/* Smart Footer Styles */
+.smart-footer {
+    margin-top: 60px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 25px 25px 0 0;
+    padding: 40px 0 20px 0;
+    box-shadow: 0 -8px 32px rgba(102, 126, 234, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.footer-brand .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-logo-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.footer-brand h3 {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-tagline {
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.footer-section h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.footer-section p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    font-size: 0.9em;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tech-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tech-badge:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.footer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    margin: 30px 40px 20px 40px;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-copyright p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85em;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.footer-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.footer-separator {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8em;
+}
+
+.footer-version {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8em;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+/* Dark Mode Footer Styles */
+body.dark-mode .smart-footer {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .footer-brand h3 {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode .tech-badge {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+body.dark-mode .tech-badge:hover {
+    background: rgba(59, 130, 246, 0.3);
+}
+
+/* Mobile Footer Styles */
+@media (max-width: 768px) {
+    .smart-footer {
+        margin-top: 40px;
+        padding: 30px 0 15px 0;
+        border-radius: 20px 20px 0 0;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 0 25px;
+        text-align: center;
+    }
+    
+    .footer-brand .footer-logo {
+        justify-content: center;
+    }
+    
+    .footer-divider {
+        margin: 25px 20px 15px 20px;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        padding: 0 25px;
+        gap: 10px;
+    }
+    
+    .footer-links {
+        justify-content: center;
+    }
+    
+    .tech-stack {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        padding: 0 20px;
+    }
+    
+    .footer-bottom {
+        padding: 0 20px;
+    }
+    
+    .footer-divider {
+        margin: 20px 15px 10px 15px;
     }
 }

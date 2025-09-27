@@ -178,6 +178,43 @@ function setCurrentDayAsDefault() {
 // Dark mode toggle
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 
+// Resource popup logic
+const mainResourceBtn = document.getElementById('main-resource-btn');
+const resourcePopup = document.getElementById('resource-popup');
+
+function showResourcePopup() {
+  resourcePopup.classList.add('show');
+}
+
+function hideResourcePopup() {
+  resourcePopup.classList.remove('show');
+}
+
+mainResourceBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (resourcePopup.classList.contains('show')) {
+    hideResourcePopup();
+  } else {
+    showResourcePopup();
+  }
+});
+
+// Optional: Show on hover
+mainResourceBtn.addEventListener('mouseenter', showResourcePopup);
+mainResourceBtn.addEventListener('mouseleave', () => {
+  setTimeout(() => {
+    if (!resourcePopup.matches(':hover')) hideResourcePopup();
+  }, 200);
+});
+resourcePopup.addEventListener('mouseleave', hideResourcePopup);
+
+// Hide popup when clicking outside
+document.addEventListener('click', (e) => {
+  if (!resourcePopup.contains(e.target) && e.target !== mainResourceBtn) {
+    hideResourcePopup();
+  }
+});
+
 // Check if dark mode preference exists, if not set default to dark mode
 const darkModePreference = localStorage.getItem('dark-mode');
 if (darkModePreference === null || darkModePreference === 'enabled') {
