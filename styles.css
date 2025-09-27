@@ -188,6 +188,7 @@ button:hover {
     font-weight: 600;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+    text-shadow: #000000 1px 1px 2px;
 }
 
 #resources-btn:hover {
@@ -784,7 +785,6 @@ body.dark-mode .widget-icon {
         font-size: 0.8em;
         width: 100%;
         max-width: 100px;
-        text-shadow: #000000 1px 1px 2px;
     }
     
     .info-widget {
