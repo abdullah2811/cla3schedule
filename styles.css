@@ -534,7 +534,8 @@ body.dark-mode .header-logo:hover {
                 -8px 0 30px rgba(0, 0, 0, 0.4);    /* Left shadow */
     z-index: 1000;
     animation: slideInWidget 0.6s ease-out;
-    min-width: 450px;
+    min-width: fit-content;
+    max-width: 80vw;
 }
 
 @keyframes slideInWidget {
@@ -571,7 +572,8 @@ body.dark-mode .header-logo:hover {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    min-width: 0;
+    min-width: max-content;
+    flex: 1;
 }
 
 .widget-label {
@@ -593,10 +595,11 @@ body.dark-mode .header-logo:hover {
     font-size: 0.7em;
     color: rgba(255, 255, 255, 0.6);
     line-height: 1.1;
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 /* Make bus text bold */
@@ -639,9 +642,9 @@ body.dark-mode .widget-icon {
         top: auto;
         right: auto;
         margin: 15px auto 20px auto;
-        min-width: auto;
+        min-width: fit-content;
         width: calc(100% - 40px);
-        max-width: 600px;
+        max-width: 90vw;
     }
 }
 
@@ -651,14 +654,14 @@ body.dark-mode .widget-icon {
         position: static;
         margin: 15px auto;
         width: calc(100% - 40px);
-        max-width: none;
+        max-width: 95vw;
+        min-width: fit-content;
         background: rgba(0, 0, 0, 0.85);
         box-shadow: 0 -8px 10px rgba(0, 0, 0, 0.5),    /* Top shadow */
                     8px 0 10px rgba(0, 0, 0, 0.5),     /* Right shadow */
                     -8px 0 10px rgba(0, 0, 0, 0.5);    /* Left shadow */
         padding: 15px 20px 15px 20px;
         border-radius: 15px;
-        min-width: auto;
         flex-wrap: wrap;
         gap: 15px;
         justify-content: space-around;

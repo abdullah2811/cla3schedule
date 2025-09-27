@@ -57,8 +57,9 @@ function loadData(data) {
 // Enable editing for a section
 function enableEditing(section) {
   const name = prompt("Enter your full name:");
+  if(!name) return alert("Name is required!");
   const studentId = prompt("Enter your student ID:");
-  if (!name || !studentId) return alert("Name and Student ID are required!");
+  if(!studentId) return alert("Student ID is required!");
 
   if (section === 'bus') {
     const onFromCampusElement = document.getElementById('bus-on-from-campus');
@@ -519,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Show immediate feedback that the script is loading
     const timeElement = document.getElementById('current-time');
     if (timeElement) {
-        timeElement.textContent = 'Loading...';
+        timeElement.textContent = 'Thinking...';
         console.log('Found time element, showing loading message');
     } else {
         console.error('Time element not found! Make sure the HTML is properly added.');
