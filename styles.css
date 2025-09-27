@@ -111,6 +111,8 @@ body.dark-mode h1 {
     font-size: 0.8em; 
     color: #4d0303;
     font-weight: 600;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 body.dark-mode .editor-info { 
