@@ -15,24 +15,14 @@
                 <span class="news-text">Latest Updates</span>
             </div>
             <div class="news-content">
-                <marquee behavior="scroll" direction="left" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">
-                    🎉 Puja Vacation Going On  
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    📝 Temporary bus schedule: 
-                    &nbsp;&nbsp;&nbsp;
-                    🚌 From Campus: 10.00 AM 🔁 To Campus: 11.30 AM
-                    &nbsp;&nbsp;&nbsp;
-                    🚌 From Campus: 04.00 PM 🔁 To Campus: 05.30 PM
-                    &nbsp;&nbsp;&nbsp;
-                    🚌 From Campus: 06.00 PM 🔁 To Campus: 08.30 PM
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    🏆 CSE Premier League starts from 7/8th October, 2025
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    🏞️ CSE Departmental Tour on 17/18th October, 2025
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    🎊 A Batch Meeting called on 5th October, 2025
-                </marquee>
+                <div id="news-content">
+                    <marquee behavior="scroll" direction="left" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">
+                        No Updates Available.
+                    </marquee>
+                </div>
+                <div class="editor-info" id="news-editor"></div>
             </div>
+            <button class="news-edit-btn" onclick="enableEditing('news')" title="Edit Updates">✏️</button>
         </div>
     </div>
     
@@ -213,7 +203,11 @@
         </div>
     </footer>
     
-    <script type="module" src="scripts.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+    
+    <script src="scripts.js"></script>
 </body>
 </html>
 

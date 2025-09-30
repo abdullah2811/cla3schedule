@@ -1,6 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore.js";
-
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDHAFOwKHAZR9lGOaGtbPEOIa3pLqi1HnM",
@@ -13,41 +10,95 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+let app, db;
+try {
+  app = firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  console.log("Firebase initialized successfully");
+} catch (error) {
+  console.error("Error initializing Firebase:", error);
+  alert("Error initializing Firebase: " + error.message);
+}
 
 // Fetch data from Firestore
 async function fetchData() {
   try {
-    const docRef = doc(db, "schedule", "data");
-    const docSnap = await getDoc(docRef);
+    console.log("Attempting to fetch data from Firebase...");
+    const docRef = db.collection("schedule").doc("data");
+    const docSnap = await docRef.get();
 
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      console.log("Fetched data:", data);
+    if (docSnap.exists) {
+      let data = docSnap.data();
+      console.log("Successfully fetched data:", data);
+      
+      // Check if data is properly structured
+      if (typeof data === 'string') {
+        try {
+          // If data is a string, try to parse it as JSON
+          data = JSON.parse(data);
+          console.log("Parsed stringified data:", data);
+        } catch (parseError) {
+          console.error("Failed to parse data as JSON:", parseError);
+          alert("Data format error in Firebase. Please check the database structure.");
+          return;
+        }
+      }
+      
       loadData(data);
     } else {
       console.log("No such document!");
+      alert("No data found in Firebase. Please check the database.");
+      
+      // Load default content for news
+      document.getElementById('news-content').innerHTML = 
+        '<marquee behavior="scroll" direction="left" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">No Updates Available.</marquee>';
     }
   } catch (error) {
     console.error("Error fetching data:", error);
+    alert("Error connecting to Firebase: " + error.message);
+    
+    // Load default content for news on error
+    document.getElementById('news-content').innerHTML = 
+      '<marquee behavior="scroll" direction="left" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">Error loading updates.</marquee>';
   }
 }
 
 // Load saved data into the page
 function loadData(data) {
-  ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'tasks', 'bus'].forEach(section => {
-    if (section === 'bus') {
-      document.getElementById('bus-on-from-campus').innerHTML = data.bus.onfromCampus;
-      document.getElementById('bus-on-to-campus').innerHTML = data.bus.ontoCampus;
-      document.getElementById('bus-off-from-campus').innerHTML = data.bus.offfromCampus;
-      document.getElementById('bus-off-to-campus').innerHTML = data.bus.offtoCampus;
-    } else {
-      document.getElementById(`${section}-content`).innerHTML = data[section].content;
-    }
+  console.log("Loading data into page elements...", data);
+  
+  ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'tasks', 'bus', 'news'].forEach(section => {
+    try {
+      if (section === 'bus') {
+        if (data.bus) {
+          document.getElementById('bus-on-from-campus').innerHTML = data.bus.onfromCampus || '';
+          document.getElementById('bus-on-to-campus').innerHTML = data.bus.ontoCampus || '';
+          document.getElementById('bus-off-from-campus').innerHTML = data.bus.offfromCampus || '';
+          document.getElementById('bus-off-to-campus').innerHTML = data.bus.offtoCampus || '';
+        }
+      } else if (section === 'news') {
+        // Load news content into marquee
+        if (data.news && data.news.content) {
+          console.log("Loading news content:", data.news.content);
+          document.getElementById('news-content').innerHTML = data.news.content;
+        } else {
+          console.log("No news content found or invalid news structure");
+        }
+      } else {
+        if (data[section] && data[section].content) {
+          document.getElementById(`${section}-content`).innerHTML = data[section].content;
+        }
+      }
 
-    document.getElementById(`${section}-editor`).textContent =
-      data[section].lastEditedBy ? `Last edited by: ${data[section].lastEditedBy}` : '';
+      if (data[section] && data[section].lastEditedBy) {
+        const editorElement = document.getElementById(`${section}-editor`);
+        if (editorElement) {
+          editorElement.textContent = `Last edited by: ${data[section].lastEditedBy}`;
+        }
+      }
+    } catch (error) {
+      console.error(`Error loading section ${section}:`, error);
+    }
   });
   
   // Store the data for live info board
@@ -89,6 +140,66 @@ function enableEditing(section) {
       saveBtn.remove();
     };
     document.getElementById('bus-content').appendChild(saveBtn);
+  } else if (section === 'news') {
+    // Create modal overlay for news editing
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'news-edit-modal-overlay';
+    
+    const modalContent = document.createElement('div');
+    modalContent.className = 'news-edit-modal';
+    
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'news-edit-header';
+    modalHeader.innerHTML = '<h3>📢 Edit Latest Updates</h3><p>Add or modify news items. Use emojis and spaces for better presentation.</p>';
+    
+    const textarea = document.createElement('textarea');
+    textarea.className = 'news-edit-textarea';
+    textarea.value = document.getElementById('news-content').innerHTML.replace(/<marquee[^>]*>|<\/marquee>/g, '').trim();
+    textarea.placeholder = 'Example: 🎉 Puja Vacation Going On          📚 Mid-term exams on Oct 20-25          🚌 New bus schedule available';
+    
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'news-edit-buttons';
+    
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'news-save-btn';
+    saveBtn.innerHTML = '💾 Save Changes';
+    saveBtn.onclick = async () => {
+      const marqueeContent = `<marquee behavior="scroll" direction="left" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">${textarea.value}</marquee>`;
+      
+      const updatedData = {
+        content: marqueeContent,
+        lastEditedBy: `${name} (ID: ${studentId})`
+      };
+
+      await saveDataToFirestore(section, updatedData);
+      fetchData();
+      document.body.removeChild(modalOverlay);
+    };
+    
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'news-cancel-btn';
+    cancelBtn.innerHTML = '❌ Cancel';
+    cancelBtn.onclick = () => {
+      document.body.removeChild(modalOverlay);
+    };
+    
+    buttonContainer.appendChild(saveBtn);
+    buttonContainer.appendChild(cancelBtn);
+    
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(textarea);
+    modalContent.appendChild(buttonContainer);
+    modalOverlay.appendChild(modalContent);
+    
+    document.body.appendChild(modalOverlay);
+    textarea.focus();
+    
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        document.body.removeChild(modalOverlay);
+      }
+    });
   } else {
     const element = document.getElementById(`${section}-content`);
     element.contentEditable = true;
@@ -113,13 +224,13 @@ function enableEditing(section) {
 // Save data to Firestore
 async function saveDataToFirestore(section, updatedData) {
   try {
-    const docRef = doc(db, "schedule", "data");
-    const docSnap = await getDoc(docRef);
+    const docRef = db.collection("schedule").doc("data");
+    const docSnap = await docRef.get();
 
-    if (docSnap.exists()) {
+    if (docSnap.exists) {
       const currentData = docSnap.data();
       currentData[section] = updatedData;
-      await setDoc(docRef, currentData);
+      await docRef.set(currentData);
       alert("Changes saved successfully!");
     } else {
       console.log("No such document to update!");

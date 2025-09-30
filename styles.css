@@ -22,6 +22,7 @@ body {
     align-items: center;
     height: 45px;
     overflow: hidden;
+    position: relative;
 }
 
 .news-label {
@@ -38,6 +39,19 @@ body {
     color: white;
 }
 
+.news-edit-btn {
+    padding: 0;
+    background: thistle;
+}
+
+.news-edit-btn:hover {
+    background: #6b86dc;
+}
+
+.body.dark-mode .news-edit-btn {
+    background: rgba(59, 130, 246, 0.2);
+}
+
 .news-icon {
     font-size: 1.5em;
 }
@@ -46,6 +60,7 @@ body {
     flex: 1;
     overflow: hidden;
     height: 100%;
+    position: relative;
 }
 
 .news-content marquee {
@@ -75,6 +90,15 @@ body.dark-mode .news-content marquee {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
+body.dark-mode .news-edit-btn {
+    background: rgba(59, 130, 246, 0.3);
+    color: #e0e6ed;
+}
+
+body.dark-mode .news-edit-btn:hover {
+    background: rgba(59, 130, 246, 0.4);
+}
+
 /* Adjust body margin to account for fixed news bar */
 body {
     margin-top: 65px;
@@ -98,6 +122,13 @@ body {
     .news-content marquee {
         font-size: 0.85em;
         line-height: 40px;
+    }
+    
+    .news-edit-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1em;
+        right: 3px;
     }
     
     body {
@@ -332,6 +363,214 @@ body.dark-mode h1 {
 body.dark-mode .editor-info { 
     color: #f3aeae;
     font-weight: 600;
+}
+
+/* News editor info styling */
+#news-editor {
+    position: absolute;
+    bottom: -25px;
+    right: 10px;
+    font-size: 0.7em;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2px 8px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+body.dark-mode #news-editor {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* News Edit Modal Styles */
+.news-edit-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.news-edit-modal {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease-out;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.news-edit-header h3 {
+    margin: 0 0 10px 0;
+    color: #667eea;
+    font-size: 1.5em;
+    font-weight: 700;
+}
+
+.news-edit-header p {
+    margin: 0 0 20px 0;
+    color: #64748b;
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+
+.news-edit-textarea {
+    width: 100%;
+    height: 120px;
+    padding: 15px;
+    border: 2px solid rgba(102, 126, 234, 0.2);
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff;
+    color: #374151;
+    resize: vertical;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.news-edit-textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.news-edit-textarea::placeholder {
+    color: #9ca3af;
+    font-style: italic;
+}
+
+.news-edit-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+    justify-content: flex-end;
+}
+
+.news-save-btn, .news-cancel-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.news-save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.news-save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.news-cancel-btn {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #64748b;
+}
+
+.news-cancel-btn:hover {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    transform: translateY(-2px);
+}
+
+/* Dark Mode Modal Styles */
+body.dark-mode .news-edit-modal {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+body.dark-mode .news-edit-header h3 {
+    color: #60a5fa;
+}
+
+body.dark-mode .news-edit-header p {
+    color: #94a3b8;
+}
+
+body.dark-mode .news-edit-textarea {
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #e2e8f0;
+}
+
+body.dark-mode .news-edit-textarea:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+body.dark-mode .news-edit-textarea::placeholder {
+    color: #64748b;
+}
+
+body.dark-mode .news-cancel-btn {
+    background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    color: #d1d5db;
+}
+
+body.dark-mode .news-cancel-btn:hover {
+    background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+}
+
+/* Mobile Modal Styles */
+@media (max-width: 768px) {
+    .news-edit-modal {
+        width: 95%;
+        padding: 20px;
+        margin: 20px;
+        max-height: 85vh;
+    }
+    
+    .news-edit-header h3 {
+        font-size: 1.3em;
+    }
+    
+    .news-edit-textarea {
+        height: 100px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .news-edit-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .news-save-btn, .news-cancel-btn {
+        width: 100%;
+        padding: 14px;
+    }
 }
 
 table { 
