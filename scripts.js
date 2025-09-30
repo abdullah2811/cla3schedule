@@ -210,11 +210,10 @@ resourcePopup.addEventListener('mouseleave', hideResourcePopup);
 
 // Hide popup when clicking outside
 document.addEventListener('click', (e) => {
-  if (!resourcePopup.contains(e.target) && e.target !== mainResourceBtn) {
-    hideResourcePopup();
-  }
+    if (!resourcePopup.contains(e.target) && e.target !== mainResourceBtn) {
+        hideResourcePopup();
+    }
 });
-
 // Check if dark mode preference exists, if not set default to dark mode
 const darkModePreference = localStorage.getItem('dark-mode');
 if (darkModePreference === null || darkModePreference === 'enabled') {

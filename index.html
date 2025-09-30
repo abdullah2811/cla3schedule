@@ -7,6 +7,35 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- News Scrollbar -->
+    <div class="news-scrollbar">
+        <div class="news-container">
+            <div class="news-label">
+                <span class="news-icon">📢</span>
+                <span class="news-text">Latest Updates</span>
+            </div>
+            <div class="news-content">
+                <marquee behavior="scroll" direction="left" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">
+                    🎉 Puja Vacation Going On  
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    📝 Temporary bus schedule: 
+                    &nbsp;&nbsp;&nbsp;
+                    🚌 From Campus: 10.00 AM 🔁 To Campus: 11.30 AM
+                    &nbsp;&nbsp;&nbsp;
+                    🚌 From Campus: 04.00 PM 🔁 To Campus: 05.30 PM
+                    &nbsp;&nbsp;&nbsp;
+                    🚌 From Campus: 06.00 PM 🔁 To Campus: 08.30 PM
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    🏆 CSE Premier League starts from 7/8th October, 2025
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    🏞️ CSE Departmental Tour on 17/18th October, 2025
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    🎊 A Batch Meeting called on 5th October, 2025
+                </marquee>
+            </div>
+        </div>
+    </div>
+    
     <div class="action-buttons">
         <button id="main-resource-btn">Additional Links</button>
         <div id="resource-popup" class="resource-popup">
@@ -17,7 +46,9 @@
         </div>
     </div>
     
-    <div><button id="dark-mode-toggle" class="dark-mode"><img src="dark_mode.png" alt="Dark Mode" width="30px"></button><br><br></div>
+    <div>
+        <button id="dark-mode-toggle" class="dark-mode"><img src="dark_mode.png" alt="Dark Mode" width="30px"></button>
+    </div>
     
     <!-- Live Info Widget in top-right corner -->
     <div class="info-widget">

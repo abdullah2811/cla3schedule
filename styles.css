@@ -7,6 +7,121 @@ body {
     color: #333;
 }
 
+/* News Scrollbar Styles */
+.news-scrollbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 9999;
+}
+
+.news-container {
+    display: flex;
+    align-items: center;
+    height: 45px;
+    overflow: hidden;
+}
+
+.news-label {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1em;
+    letter-spacing: 0.5px;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    color: white;
+}
+
+.news-icon {
+    font-size: 1.5em;
+}
+
+.news-content {
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+}
+
+.news-content marquee {
+    color: white;
+    font-weight: 600;
+    font-size: 1.2em;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    line-height: 45px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode News Scrollbar */
+body.dark-mode .news-scrollbar {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
+body.dark-mode .news-label {
+    background: rgba(59, 130, 246, 0.2);
+    border-right: 1px solid rgba(59, 130, 246, 0.3);
+    color: #e0e6ed;
+}
+
+body.dark-mode .news-content marquee {
+    color: #e0e6ed;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* Adjust body margin to account for fixed news bar */
+body {
+    margin-top: 65px;
+}
+
+/* Mobile responsive marquee */
+@media (max-width: 768px) {
+    .news-scrollbar {
+        height: 40px;
+    }
+    
+    .news-container {
+        height: 40px;
+    }
+    
+    .news-label {
+        padding: 8px 15px;
+        font-size: 0.8em;
+    }
+    
+    .news-content marquee {
+        font-size: 0.85em;
+        line-height: 40px;
+    }
+    
+    body {
+        margin-top: 60px;
+    }
+}
+
+@media (max-width: 480px) {
+    .news-label .news-text {
+        display: none;
+    }
+    
+    .news-label {
+        padding: 6px 12px;
+        font-size: 0.75em;
+    }
+    
+    .news-content marquee {
+        font-size: 0.8em;
+    }
+}
+
+
+
 .container { 
     display: grid; 
     grid-template-columns: 1fr 1fr; 
@@ -455,11 +570,11 @@ body.dark-mode #resources-btn:hover {
     background-color: transparent; /* Transparent background */
     border: none; /* Remove border */
     cursor: pointer; /* Pointer cursor for better UX */
-    position: absolute; /* Position it freely */
-    top: 20px; /* Adjust position */
-    right: 10px; /* Adjust position */
+    position: fixed; /* Fixed position to avoid conflicts */
+    top: 65px; /* Position below news scrollbar */
+    right: 15px; /* Adjust position */
     padding: 5px; /* Add some padding */
-    z-index: 1000; /* Ensure it stays on top */
+    z-index: 1000; /* Ensure it stays on top but below news bar */
 }
 
 #dark-mode-toggle img {
@@ -637,7 +752,7 @@ body.dark-mode .header-logo:hover {
 /* Live Info Widget - positioned in top-right corner */
 .info-widget {
     position: fixed;
-    top: 15px;
+    top: 65px; /* Position below news scrollbar */
     right: 70px;
     display: flex;
     align-items: center;
@@ -752,6 +867,12 @@ body.dark-mode .widget-icon {
 }
 
 /* Responsive behavior for widget */
+@media (min-width: 1201px) {
+    .info-widget {
+        top: 65px; /* Ensure proper spacing from news scrollbar on large screens */
+    }
+}
+
 @media (max-width: 1200px) {
     .info-widget {
         position: relative;
@@ -765,7 +886,7 @@ body.dark-mode .widget-icon {
 }
 
 @media (max-width: 768px) {
-    /* Hide the fixed widget on mobile */
+    /* Widget becomes relative on mobile - no overlap issues */
     .info-widget {
         position: static;
         margin: 15px auto;
