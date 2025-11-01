@@ -40,11 +40,31 @@
         </div>
     </div>
     
-    <div>
-        <button id="dark-mode-toggle" class="dark-mode"><img src="dark_mode.png" alt="Dark Mode" width="30px"></button>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <div class="nav-left">
+            <button id="dark-mode-toggle" class="nav-btn dark-mode-btn" title="Toggle Dark Mode">
+                <img src="dark_mode.png" alt="Dark Mode" width="20px">
+            </button>
+        </div>
+        
+        <div class="nav-right">
+            <!-- Compact Authentication -->
+            <div class="auth-compact">
+                <div id="auth-user-display" class="auth-user-display">
+                    <span id="auth-user-info">🔍 Checking...</span>
+                </div>
+                <button id="login-btn" class="nav-btn auth-login-btn" style="display: none;" title="Login to Edit">
+                    <span class="auth-icon">👤</span>
+                </button>
+                <button id="logout-btn" class="nav-btn auth-logout-btn" style="display: none;" title="Logout">
+                    <span class="auth-icon">💨</span>
+                </button>
+            </div>
+        </div>
     </div>
     
-    <!-- Live Info Widget in top-right corner -->
+    <!-- Live Info Widget -->
     <div class="info-widget">
         <div class="widget-item time-widget">
             <div class="widget-icon">🕰️</div>
@@ -84,7 +104,7 @@
     <header class="main-header">
         <div class="header-content">
             <img src="BatchLogo.png" alt="Nexus Logo" class="header-logo">
-            <h1>Class Schedule & Information Portal</h1>
+            <h1>cla3schedule</h1>
         </div>
     </header>    
     
@@ -207,9 +227,67 @@
         </div>
     </footer>
     
+    <!-- Login Modal -->
+    <div id="login-modal" class="login-modal-overlay" style="display: none;">
+        <div class="login-modal">
+            <div class="login-header">
+                <h3>🔐 Login to Edit Content</h3>
+                <button id="close-login-modal" class="close-modal-btn">&times;</button>
+            </div>
+            
+            <div class="login-tabs">
+                <button class="login-tab active" data-tab="login">Login</button>
+                <button class="login-tab" data-tab="register">Register</button>
+            </div>
+            
+            <div id="login-tab-content" class="login-tab-content active">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email:</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password:</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Login</button>
+                </form>
+            </div>
+            
+            <div id="register-tab-content" class="login-tab-content">
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name">Full Name:</label>
+                        <input type="text" id="register-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-student-id">Student ID:</label>
+                        <input type="text" id="register-student-id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email:</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password:</label>
+                        <input type="password" id="register-password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirm Password:</label>
+                        <input type="password" id="register-confirm-password" required minlength="6">
+                    </div>
+                    <button type="submit" class="auth-submit-btn">Register</button>
+                </form>
+            </div>
+            
+            <div id="auth-message" class="auth-message"></div>
+        </div>
+    </div>
+    
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.7.1/firebase-auth-compat.js"></script>
     
     <script src="scripts.js"></script>
 </body>

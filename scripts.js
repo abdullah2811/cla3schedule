@@ -10,14 +10,180 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-let app, db;
+let app, db, auth;
 try {
   app = firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
+  auth = firebase.auth();
   console.log("Firebase initialized successfully");
 } catch (error) {
   console.error("Error initializing Firebase:", error);
   alert("Error initializing Firebase: " + error.message);
+}
+
+// Authentication State and Functions
+let currentUser = null;
+
+// Initialize auth state listener
+auth.onAuthStateChanged((user) => {
+  currentUser = user;
+  updateAuthUI(user);
+});
+
+// Update authentication UI
+function updateAuthUI(user) {
+  const authUserInfo = document.getElementById('auth-user-info');
+  const loginBtn = document.getElementById('login-btn');
+  const logoutBtn = document.getElementById('logout-btn');
+  
+  if (user) {
+    // User is signed in
+    const displayName = user.displayName || user.email;
+    authUserInfo.textContent = `✅ ${displayName}`;
+    authUserInfo.title = `Logged in as: ${displayName}`;
+    loginBtn.style.display = 'none';
+    logoutBtn.style.display = 'flex';
+  } else {
+    // User is signed out
+    authUserInfo.textContent = '👁️ Read-only';
+    authUserInfo.title = 'Login to edit content';
+    loginBtn.style.display = 'flex';
+    logoutBtn.style.display = 'none';
+  }
+}
+
+// Show login modal
+function showLoginModal() {
+  document.getElementById('login-modal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+// Hide login modal
+function hideLoginModal() {
+  document.getElementById('login-modal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+  clearAuthMessage();
+}
+
+// Switch between login and register tabs
+function switchTab(tabName) {
+  const tabs = document.querySelectorAll('.login-tab');
+  const contents = document.querySelectorAll('.login-tab-content');
+  
+  tabs.forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.tab === tabName);
+  });
+  
+  contents.forEach(content => {
+    content.classList.toggle('active', content.id === `${tabName}-tab-content`);
+  });
+  
+  clearAuthMessage();
+}
+
+// Show authentication message
+function showAuthMessage(message, type) {
+  const messageEl = document.getElementById('auth-message');
+  messageEl.textContent = message;
+  messageEl.className = `auth-message ${type}`;
+  messageEl.style.display = 'block';
+}
+
+// Clear authentication message
+function clearAuthMessage() {
+  const messageEl = document.getElementById('auth-message');
+  messageEl.style.display = 'none';
+}
+
+// Handle user registration
+async function handleRegister(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('register-name').value;
+  const studentId = document.getElementById('register-student-id').value;
+  const email = document.getElementById('register-email').value;
+  const password = document.getElementById('register-password').value;
+  const confirmPassword = document.getElementById('register-confirm-password').value;
+  
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    showAuthMessage('Passwords do not match!', 'error');
+    return;
+  }
+  
+  try {
+    // Create user account
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+    
+    // Update user profile with display name
+    await user.updateProfile({
+      displayName: `${name} (${studentId})`
+    });
+    
+    // Store additional user data in Firestore
+    await db.collection('users').doc(user.uid).set({
+      name: name,
+      studentId: studentId,
+      email: email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    showAuthMessage('Registration successful! You can now edit content.', 'success');
+    
+    setTimeout(() => {
+      hideLoginModal();
+    }, 2000);
+    
+  } catch (error) {
+    console.error('Registration error:', error);
+    showAuthMessage(error.message, 'error');
+  }
+}
+
+// Handle user login
+async function handleLogin(event) {
+  event.preventDefault();
+  
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    showAuthMessage('Login successful!', 'success');
+    
+    setTimeout(() => {
+      hideLoginModal();
+    }, 1500);
+    
+  } catch (error) {
+    console.error('Login error:', error);
+    showAuthMessage(error.message, 'error');
+  }
+}
+
+// Handle user logout
+async function handleLogout() {
+  try {
+    await auth.signOut();
+    alert('You have been logged out successfully.');
+  } catch (error) {
+    console.error('Logout error:', error);
+    alert('Error logging out: ' + error.message);
+  }
+}
+
+// Check if user is authenticated
+function isUserAuthenticated() {
+  return currentUser !== null;
+}
+
+// Get user display name for editing
+function getUserDisplayName() {
+  if (currentUser) {
+    return currentUser.displayName || currentUser.email;
+  }
+  return null;
 }
 
 // Fetch data from Firestore
@@ -107,11 +273,15 @@ function loadData(data) {
 
 // Enable editing for a section
 function enableEditing(section) {
-  const name = prompt("Enter your full name:");
-  if(!name) return alert("Name is required!");
-  const studentId = prompt("Enter your student ID:");
-  if(!studentId) return alert("Student ID is required!");
+  // Check if user is authenticated
+  if (!isUserAuthenticated()) {
+    alert("Please login to edit content. Only registered users can make changes.");
+    showLoginModal();
+    return;
+  }
 
+  const userDisplayName = getUserDisplayName();
+  
   if (section === 'bus') {
     const onFromCampusElement = document.getElementById('bus-on-from-campus');
     const onToCampusElement = document.getElementById('bus-on-to-campus');
@@ -132,7 +302,7 @@ function enableEditing(section) {
         ontoCampus: onToCampusElement.innerHTML,
         offfromCampus: offFromCampusElement.innerHTML,
         offtoCampus: offToCampusElement.innerHTML,
-        lastEditedBy: `${name} (ID: ${studentId})`
+        lastEditedBy: userDisplayName
       };
 
       await saveDataToFirestore(section, updatedData);
@@ -168,7 +338,7 @@ function enableEditing(section) {
       
       const updatedData = {
         content: marqueeContent,
-        lastEditedBy: `${name} (ID: ${studentId})`
+        lastEditedBy: userDisplayName
       };
 
       await saveDataToFirestore(section, updatedData);
@@ -210,7 +380,7 @@ function enableEditing(section) {
     saveBtn.onclick = async () => {
       const updatedData = {
         content: element.innerHTML,
-        lastEditedBy: `${name} (ID: ${studentId})`
+        lastEditedBy: userDisplayName
       };
 
       await saveDataToFirestore(section, updatedData);
@@ -682,6 +852,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Load everything on page load
 fetchData();
+
+// Authentication Event Listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Login button
+    document.getElementById('login-btn').addEventListener('click', showLoginModal);
+    
+    // Logout button
+    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+    
+    // Close modal button
+    document.getElementById('close-login-modal').addEventListener('click', hideLoginModal);
+    
+    // Tab switching
+    document.querySelectorAll('.login-tab').forEach(tab => {
+        tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    });
+    
+    // Form submissions
+    document.getElementById('login-form').addEventListener('submit', handleLogin);
+    document.getElementById('register-form').addEventListener('submit', handleRegister);
+    
+    // Close modal when clicking outside
+    document.getElementById('login-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'login-modal') {
+            hideLoginModal();
+        }
+    });
+    
+    // Prevent form submission on enter key for password confirmation
+    document.getElementById('register-confirm-password').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            document.getElementById('register-form').dispatchEvent(new Event('submit'));
+        }
+    });
+});
 
 // Make global access to enableEditing and showDay
 window.enableEditing = enableEditing;

@@ -1,10 +1,153 @@
 /* Enhanced Light Mode Styling */
 body { 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    margin: 20px; 
+    margin: 0;
+    padding: 0;
     background: linear-gradient(135deg, #667eea 0%, #36062f 100%);
     min-height: 100vh;
     color: #333;
+    padding-top: 85px; /* Space for fixed elements - reduced */
+}
+
+/* Top Navigation Bar */
+.top-nav {
+    position: fixed;
+    top: 45px; /* Below the news bar */
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 9998;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 20px;
+    height: 35px;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.dark-mode-btn img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-btn:hover img {
+    transform: scale(1.2);
+}
+
+/* Compact Authentication */
+.auth-compact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.auth-user-display {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-login-btn, .auth-logout-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.auth-login-btn:hover {
+    background: rgba(102, 126, 234, 0.8);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transform: scale(1.05);
+}
+
+.auth-logout-btn:hover {
+    background: rgba(255, 107, 107, 0.8);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+    transform: scale(1.05);
+}
+
+.auth-icon {
+    font-size: 1.1em;
+}
+
+/* Dark Mode Top Navigation */
+body.dark-mode .top-nav {
+    background: rgba(30, 41, 59, 0.2);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+body.dark-mode .nav-btn {
+    background: transparent;
+    color: #e0e6ed;
+}
+
+body.dark-mode .nav-btn:hover {
+    background: rgba(59, 130, 246, 0.2);
+}
+
+body.dark-mode .auth-user-display {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.3);
+    color: #e0e6ed;
+}
+
+body.dark-mode .auth-login-btn, 
+body.dark-mode .auth-logout-btn {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+body.dark-mode .auth-login-btn:hover {
+    background: rgba(59, 130, 246, 0.8);
+}
+
+body.dark-mode .auth-logout-btn:hover {
+    background: rgba(239, 68, 68, 0.8);
+}
+
+body.dark-mode .dark-mode-btn img {
+    filter: brightness(0) invert(1);
 }
 
 /* News Scrollbar Styles */
@@ -156,16 +299,18 @@ body {
 .container { 
     display: grid; 
     grid-template-columns: 1fr 1fr; 
-    gap: 20px; 
+    gap: 20px;
+    margin: 20px;
 }
 
 .action-buttons {
-    position: relative;
+    position: absolute !important;
+    top: 100px !important; /* CUSTOMIZE: Change this value to move vertically */
+    left: 20px;
     display: flex;
     align-items: flex-start;
     gap: 15px;
-    margin: 20px 0;
-    padding: 0 60px;
+    z-index: 999; /* Lower than navigation bars but above content */
     box-sizing: border-box;
 }
 
@@ -271,33 +416,7 @@ body.dark-mode #main-resource-btn:hover {
     border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-/* Responsive button layout to avoid toggle button */
-@media (max-width: 1200px) {
-    .action-buttons {
-        padding: 0 40px;
-        gap: 12px;
-    }
-}
-
-@media (max-width: 900px) {
-    .action-buttons {
-        padding: 0 60px;
-        gap: 10px;
-    }
-}
-
-@media (max-width: 700px) {
-    .action-buttons {
-        grid-template-columns: 1fr;
-        padding: 0 20px;
-        gap: 10px;
-    }
-    
-    .resource-btn {
-        max-width: 100%;
-        min-width: 200px;
-    }
-}
+/* Remove conflicting responsive action-buttons rules - handled in main responsive section */
 
 .section { 
     border: none;
@@ -662,7 +781,7 @@ body.dark-mode #resources-btn:hover {
 }
 
 .days-navigation {
-    margin: 20px 0;
+    margin: 20px 20px;
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
@@ -699,6 +818,7 @@ body.dark-mode #resources-btn:hover {
 
 .day-schedule.active {
     display: block;
+    margin: 20px;
 }
 
 .bus-schedule-container {
@@ -804,27 +924,6 @@ body.dark-mode #resources-btn:hover {
     }
 }
 
-/* Dark Mode Button */
-#dark-mode-toggle {
-    background-color: transparent; /* Transparent background */
-    border: none; /* Remove border */
-    cursor: pointer; /* Pointer cursor for better UX */
-    position: fixed; /* Fixed position to avoid conflicts */
-    top: 65px; /* Position below news scrollbar */
-    right: 15px; /* Adjust position */
-    padding: 5px; /* Add some padding */
-    z-index: 1000; /* Ensure it stays on top but below news bar */
-}
-
-#dark-mode-toggle img {
-    width: 30px; /* Adjust the size of the icon */
-    height: 30px;
-    transition: transform 0.3s ease; /* Add a hover effect */
-}
-
-#dark-mode-toggle:hover img {
-    transform: scale(1.2); /* Slightly enlarge the icon on hover */
-}
 /* Enhanced Dark Mode Styles */
 body.dark-mode {
     background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 100%);
@@ -834,7 +933,7 @@ body.dark-mode {
 
 /* Header Section Styling */
 .main-header {
-    margin: 20px 0 30px 0;
+    margin: 150px 20px 30px 20px; /* Adjusted for positioned elements at 100px */
     clear: both;
 }
 
@@ -860,14 +959,7 @@ body.dark-mode {
     transform: scale(1.05);
 }
 
-.action-buttons {
-    display: flex;
-    justify-content: left;
-    
-    gap: 5px;
-    margin: 0px 500px 0px 0px;
-    flex-wrap: wrap;
-}
+/* Conflicting action-buttons definition removed - handled by main definition above */
 
 body.dark-mode .body {
     background: transparent;
@@ -971,13 +1063,6 @@ body.dark-mode .schedule-times p:hover {
     color: #f3f4f6;
 }
 
-/* Enhanced dark mode button styling */
-body.dark-mode #dark-mode-toggle {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    border-radius: 20%;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-}
-
 /* Dark mode header styling */
 body.dark-mode .header-logo {
     background-color: #374151;
@@ -990,9 +1075,9 @@ body.dark-mode .header-logo:hover {
 
 /* Live Info Widget - positioned in top-right corner */
 .info-widget {
-    position: fixed;
-    top: 65px; /* Position below news scrollbar */
-    right: 70px;
+    position: absolute !important;
+    top: 100px !important; /* CUSTOMIZE: Change this value to move vertically */
+    right: 15px;
     display: flex;
     align-items: center;
     background: rgba(0, 0, 0, 0.8);
@@ -1002,7 +1087,7 @@ body.dark-mode .header-logo:hover {
     backdrop-filter: blur(10px);
     box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.4),    /* Top shadow */
                 -8px 0 30px rgba(0, 0, 0, 0.4);    /* Left shadow */
-    z-index: 1000;
+    z-index: 999; /* Lower than navigation bars but above content */
     animation: slideInWidget 0.6s ease-out;
     min-width: fit-content;
     max-width: 80vw;
@@ -1108,23 +1193,97 @@ body.dark-mode .widget-icon {
 /* Responsive behavior for widget */
 @media (min-width: 1201px) {
     .info-widget {
-        top: 65px; /* Ensure proper spacing from news scrollbar on large screens */
+        top: 170px; /* Same level as action buttons on large screens */
+    }
+    
+    .action-buttons {
+        top: 170px;
+        left: 20px;
+        position: fixed;
     }
 }
 
 @media (max-width: 1200px) {
     .info-widget {
-        position: relative;
-        top: auto;
+        position: relative !important;
+        top: auto !important;
         right: auto;
         margin: 15px auto 20px auto;
         min-width: fit-content;
         width: calc(100% - 40px);
         max-width: 90vw;
     }
+    
+    .action-buttons {
+        position: relative !important;
+        top: auto !important;
+        left: auto;
+        margin: 20px auto;
+        justify-content: center;
+        padding: 0 20px;
+    }
+    
+    .main-header {
+        margin: 20px 20px 30px 20px !important; /* Reset margin for smaller screens */
+    }
+}
+
+/* Tablet and medium screens - prevent overlap */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .info-widget {
+        position: relative !important;
+        top: auto !important;
+        right: auto;
+        margin: 20px auto;
+        width: calc(100% - 60px);
+        max-width: 85vw;
+    }
+    
+    .action-buttons {
+        position: relative !important;
+        top: auto !important;
+        left: auto;
+        margin: 20px auto;
+        justify-content: center;
+        padding: 0 30px;
+    }
+    
+    .main-header {
+        margin: 30px 20px 30px 20px !important;
+    }
 }
 
 @media (max-width: 768px) {
+    body {
+        padding-top: 90px; /* More space for mobile */
+    }
+    
+    .top-nav {
+        padding: 4px 15px;
+        height: 40px;
+    }
+    
+    .nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .dark-mode-btn img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .auth-user-display {
+        padding: 5px 10px;
+        font-size: 0.75em;
+        max-width: 120px;
+    }
+    
+    .auth-login-btn, .auth-logout-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
     /* Widget becomes relative on mobile - no overlap issues */
     .info-widget {
         position: static;
@@ -1141,6 +1300,15 @@ body.dark-mode .widget-icon {
         flex-wrap: wrap;
         gap: 15px;
         justify-content: space-around;
+    }
+    
+    .action-buttons {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 15px auto;
+        justify-content: center;
+        padding: 0 20px;
     }
     
     .widget-item {
@@ -1190,7 +1358,7 @@ body.dark-mode .widget-icon {
     
     /* Mobile Header Improvements */
     .main-header {
-        margin: 10px 0 20px 0;
+        margin: 15px 20px 20px 20px !important; /* Ensure clearance from top nav */
     }
     
     .header-content {
@@ -1210,13 +1378,6 @@ body.dark-mode .widget-icon {
         line-height: 1.1;
     }
     
-    .action-buttons {
-        gap: 8px;
-        margin: 15px 0;
-        padding: 0 20px;
-        grid-template-columns: 1fr;
-    }
-    
     .resource-btn {
         padding: 12px 18px;
         font-size: 0.95em;
@@ -1228,7 +1389,7 @@ body.dark-mode .widget-icon {
 @media (max-width: 480px) {
     /* Ultra mobile header optimizations */
     .main-header {
-        margin: 5px 0 15px 0;
+        margin: 10px 20px 15px 20px !important; /* Ensure clearance from top elements */
     }
     
     .header-logo {
@@ -1505,4 +1666,317 @@ body.dark-mode .tech-badge:hover {
     .footer-divider {
         margin: 20px 15px 10px 15px;
     }
+}
+
+/* Login Modal Styles */
+.login-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.login-header h3 {
+    margin: 0;
+    color: #334155;
+    font-size: 1.4em;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #64748b;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-modal-btn:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.login-tabs {
+    display: flex;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 25px;
+}
+
+.login-tab {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: #64748b;
+}
+
+.login-tab.active {
+    background: white;
+    color: #334155;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-tab-content {
+    display: none;
+}
+
+.login-tab-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.auth-submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.auth-message {
+    margin-top: 20px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    display: none;
+}
+
+.auth-message.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.auth-message.error {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+/* Dark Mode Login Modal */
+body.dark-mode .login-modal {
+    background: #1e293b;
+    color: #e0e6ed;
+}
+
+body.dark-mode .login-header {
+    border-bottom: 2px solid #334155;
+}
+
+body.dark-mode .login-header h3 {
+    color: #e0e6ed;
+}
+
+body.dark-mode .close-modal-btn {
+    color: #94a3b8;
+}
+
+body.dark-mode .close-modal-btn:hover {
+    background: #334155;
+    color: #e0e6ed;
+}
+
+body.dark-mode .login-tabs {
+    background: #334155;
+}
+
+body.dark-mode .login-tab {
+    color: #94a3b8;
+}
+
+body.dark-mode .login-tab.active {
+    background: #475569;
+    color: #e0e6ed;
+}
+
+body.dark-mode .form-group label {
+    color: #e0e6ed;
+}
+
+body.dark-mode .form-group input {
+    background: #334155;
+    border-color: #475569;
+    color: #e0e6ed;
+}
+
+body.dark-mode .form-group input:focus {
+    border-color: #667eea;
+}
+
+body.dark-mode .auth-message.success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #4ade80;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+body.dark-mode .auth-message.error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #f87171;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 90px; /* More space for mobile */
+    }
+    
+    .top-nav {
+        padding: 4px 15px;
+        height: 40px;
+    }
+    
+    .nav-btn {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .dark-mode-btn img {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .auth-user-display {
+        padding: 5px 10px;
+        font-size: 0.75em;
+        max-width: 120px;
+    }
+    
+    .auth-login-btn, .auth-logout-btn {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .info-widget {
+        position: static;
+        margin: 15px auto;
+        width: calc(100% - 40px);
+        max-width: 95vw;
+        min-width: fit-content;
+        background: rgba(0, 0, 0, 0.85);
+        box-shadow: 0 -8px 10px rgba(0, 0, 0, 0.5),    /* Top shadow */
+                    8px 0 10px rgba(0, 0, 0, 0.5),     /* Right shadow */
+                    -8px 0 10px rgba(0, 0, 0, 0.5);    /* Left shadow */
+        padding: 15px 20px 15px 20px;
+        border-radius: 15px;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: space-around;
+    }
+    
+    .action-buttons {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin: 15px auto;
+        justify-content: center;
+        padding: 0 20px;
+    }
+    
+    .main-header {
+        margin: 10px 20px 20px 20px;
+    }
+}
+    
+.main-header,
+.days-navigation,
+.day-schedule.active,
+.container {
+    margin: 15px;
+}
+
+.login-modal {
+    padding: 25px;
+    margin: 10px;
+}
+
+.login-header h3 {
+    font-size: 1.2em;
 }
