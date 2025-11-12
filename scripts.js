@@ -166,11 +166,28 @@ async function handleLogin(event) {
 async function handleLogout() {
   try {
     await auth.signOut();
-    alert('You have been logged out successfully.');
+    // Keep user informed via UI message instead of immediate blocking alert
+    showAuthMessage('You have been logged out successfully.', 'success');
   } catch (error) {
     console.error('Logout error:', error);
-    alert('Error logging out: ' + error.message);
+    showAuthMessage('Error logging out: ' + error.message, 'error');
   }
+}
+
+// Show the logout confirmation modal
+function showLogoutConfirmModal() {
+  const modal = document.getElementById('logout-confirm-modal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+// Hide the logout confirmation modal
+function hideLogoutConfirmModal() {
+  const modal = document.getElementById('logout-confirm-modal');
+  if (!modal) return;
+  modal.style.display = 'none';
+  document.body.style.overflow = 'auto';
 }
 
 // Check if user is authenticated
@@ -435,25 +452,82 @@ function setCurrentDayAsDefault() {
   
   // Map of available days in your schedule (excluding Thursday and Friday as they're off days)
   const availableDays = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday'];
-  
-  // Check if current day is available in schedule
-  if (availableDays.includes(currentDay)) {
-    console.log(`Setting default day to: ${currentDay}`);
-    showDay(currentDay);
-  } else {
-    // If it's Thursday or Friday (off days), default to next available day
-    if (currentDay === 'thursday') {
-      showDay('saturday'); // Next day with classes
-      console.log('Today is Thursday (off day), defaulting to Saturday');
-    } else if (currentDay === 'friday') {
-      showDay('saturday'); // Next day with classes
-      console.log('Today is Friday (off day), defaulting to Saturday');
-    } else {
-      // Fallback to Saturday if something goes wrong
-      showDay('saturday');
-      console.log('Fallback: defaulting to Saturday');
+  // Helper: find next available day after a given day (wraps around)
+  function getNextAvailableDay(day) {
+    const idx = availableDays.indexOf(day);
+    if (idx === -1) return availableDays[0];
+    return availableDays[(idx + 1) % availableDays.length];
+  }
+
+  // Helper: parse the schedule HTML and determine last class end time (in minutes)
+  function getLastClassEndMinutes(daySchedule) {
+    if (!daySchedule || !daySchedule.content) return null;
+    try {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(daySchedule.content, 'text/html');
+      const rows = Array.from(doc.querySelectorAll('tr')).slice(1); // skip header
+      let latest = null;
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        if (cells.length >= 1) {
+          const timeRange = cells[0].textContent.trim();
+          if (timeRange.includes('-')) {
+            const parts = timeRange.split('-');
+            const end = parts[1].trim();
+            // normalize like 09.50 -> 09:50
+            const formatted = end.replace('.', ':');
+            const [hStr, mStr] = formatted.split(':');
+            const h = parseInt(hStr) || 0;
+            const m = parseInt(mStr) || 0;
+            const minutes = h * 60 + m;
+            if (latest === null || minutes > latest) latest = minutes;
+          }
+        }
+      });
+      return latest; // null if none
+    } catch (err) {
+      console.error('Error parsing day schedule for last class end time:', err);
+      return null;
     }
   }
+
+  // If it's Thursday or Friday (off days), default to Saturday
+  if (currentDay === 'thursday' || currentDay === 'friday') {
+    showDay('saturday');
+    console.log(`Today is ${currentDay} (off day), defaulting to Saturday`);
+    return;
+  }
+
+  // If current day is one of availableDays, check if classes for today have finished
+  if (availableDays.includes(currentDay)) {
+    const todaySchedule = scheduleData[currentDay];
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    const lastEnd = getLastClassEndMinutes(todaySchedule);
+
+    // If we couldn't determine last end time or there are no classes, fall back to showing current
+    if (lastEnd === null) {
+      // No classes info or parsing failed — show current day
+      console.log(`No class end time found for ${currentDay}; defaulting to ${currentDay}`);
+      showDay(currentDay);
+      return;
+    }
+
+    if (nowMinutes > lastEnd) {
+      // Classes finished for today — show next available day
+      const nextDay = getNextAvailableDay(currentDay);
+      console.log(`All classes finished for ${currentDay} (last ended at ${Math.floor(lastEnd/60)}:${String(lastEnd%60).padStart(2,'0')}), defaulting to next day: ${nextDay}`);
+      showDay(nextDay);
+    } else {
+      // Still during class hours — show today
+      console.log(`Setting default day to: ${currentDay}`);
+      showDay(currentDay);
+    }
+    return;
+  }
+
+  // Fallback: show Saturday
+  showDay('saturday');
+  console.log('Fallback: defaulting to Saturday');
 }
 
 // Dark mode toggle
@@ -859,7 +933,39 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('login-btn').addEventListener('click', showLoginModal);
     
     // Logout button
-    document.getElementById('logout-btn').addEventListener('click', handleLogout);
+  // Open confirmation modal when logout is clicked
+  document.getElementById('logout-btn').addEventListener('click', showLogoutConfirmModal);
+
+  // Logout confirmation modal buttons
+  const confirmLogoutBtn = document.getElementById('confirm-logout-btn');
+  const cancelLogoutBtn = document.getElementById('cancel-logout-btn');
+  const logoutConfirmModal = document.getElementById('logout-confirm-modal');
+
+  if (confirmLogoutBtn) {
+    confirmLogoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      hideLogoutConfirmModal();
+      // perform logout
+      try {
+        await handleLogout();
+      } catch (err) {
+        console.error('Error during confirmed logout:', err);
+      }
+    });
+  }
+
+  if (cancelLogoutBtn) {
+    cancelLogoutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      hideLogoutConfirmModal();
+    });
+  }
+
+  if (logoutConfirmModal) {
+    logoutConfirmModal.addEventListener('click', (e) => {
+      if (e.target === logoutConfirmModal) hideLogoutConfirmModal();
+    });
+  }
     
     // Close modal button
     document.getElementById('close-login-modal').addEventListener('click', hideLoginModal);

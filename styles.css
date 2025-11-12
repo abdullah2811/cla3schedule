@@ -1692,6 +1692,11 @@ body.dark-mode .tech-badge:hover {
     max-width: 450px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     animation: modalSlideIn 0.3s ease;
+    /* Ensure modal never exceeds viewport height and can scroll internally */
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
 }
 
 @keyframes modalSlideIn {
@@ -1810,7 +1815,7 @@ body.dark-mode .tech-badge:hover {
     border: none;
     border-radius: 10px;
     font-size: 1.1em;
-    font-weight: 600;
+    font-weight: 300;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -1979,4 +1984,67 @@ body.dark-mode .auth-message.error {
 
 .login-header h3 {
     font-size: 1.2em;
+}
+
+/* Logout Confirmation Modal Styles (reuses modal patterns) */
+.confirm-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.confirm-modal {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    border-radius: 12px;
+    padding: 20px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(102, 126, 234, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.confirm-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #283b56;
+}
+
+body.dark-mode .confirm-header h3 {
+    color: #bdc6d4;
+}
+
+.confirm-body p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.4;
+    font-size: 0.98em;
+}
+
+.confirm-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+body.dark-mode .confirm-modal {
+    background: #0f1724;
+    color: #e0e6ed;
+    border: 1px solid rgba(59, 130, 246, 0.12);
+}
+
+body.dark-mode .confirm-body p {
+    color: #cbd5e1;
 }
