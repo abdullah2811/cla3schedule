@@ -203,6 +203,16 @@ function getUserDisplayName() {
   return null;
 }
 
+// Escape HTML to prevent injection when converting plain text to list items
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Fetch data from Firestore
 async function fetchData() {
   try {
@@ -266,6 +276,22 @@ function loadData(data) {
           document.getElementById('news-content').innerHTML = data.news.content;
         } else {
           console.log("No news content found or invalid news structure");
+        }
+      } else if (section === 'tasks') {
+        // Prefer rendering tasks as an ordered list for easier editing
+        if (data.tasks && data.tasks.content) {
+          let content = data.tasks.content;
+
+          // If content already contains list HTML, use it. Otherwise convert plain text/lines to <ol>
+          const hasListHtml = /<li\b|<ol\b|<ul\b/i.test(content);
+          if (!hasListHtml) {
+            // Normalize breaks and split into lines
+            const normalized = content.replace(/<br\s*\/?>/gi, '\n');
+            const lines = normalized.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+            const ol = lines.map(l => `<li>${escapeHtml(l)}</li>`).join('');
+            content = `<ol>${ol}</ol>`;
+          }
+          document.getElementById('tasks-content').innerHTML = content;
         }
       } else {
         if (data[section] && data[section].content) {
@@ -381,6 +407,82 @@ function enableEditing(section) {
     document.body.appendChild(modalOverlay);
     textarea.focus();
     
+    // Close modal when clicking outside
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        document.body.removeChild(modalOverlay);
+      }
+    });
+  } else if (section === 'tasks') {
+    // Tasks editor: show a simple textarea with one item per line, save as ordered list
+    const modalOverlay = document.createElement('div');
+    modalOverlay.className = 'news-edit-modal-overlay';
+
+    const modalContent = document.createElement('div');
+    modalContent.className = 'news-edit-modal';
+
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'news-edit-header';
+    modalHeader.innerHTML = '<h3>📝 Edit Tasks (one per line)</h3><p>Write each task on its own line. Saving converts lines into an ordered list.</p>';
+
+    const textarea = document.createElement('textarea');
+    textarea.className = 'news-edit-textarea';
+
+    // Prefill textarea based on current tasks content
+    const tasksEl = document.getElementById('tasks-content');
+    let lines = [];
+    if (tasksEl) {
+      const liItems = tasksEl.querySelectorAll('li');
+      if (liItems && liItems.length > 0) {
+        lines = Array.from(liItems).map(li => li.textContent.trim());
+      } else {
+        // Fallback: use innerText and split by lines
+        const raw = tasksEl.innerText || '';
+        lines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+      }
+    }
+    textarea.value = lines.join('\n');
+    textarea.placeholder = 'Example:\nInstall VMWare\nInstall Linux on VM\nStudy MS-DOS commands';
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'news-edit-buttons';
+
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'news-save-btn';
+    saveBtn.innerHTML = '💾 Save Tasks';
+    saveBtn.onclick = async () => {
+      const raw = textarea.value;
+      const outLines = raw.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
+      const ol = outLines.map(l => `<li>${escapeHtml(l)}</li>`).join('');
+      const html = `<ol>${ol}</ol>`;
+
+      const updatedData = {
+        content: html,
+        lastEditedBy: userDisplayName
+      };
+
+      await saveDataToFirestore(section, updatedData);
+      fetchData();
+      document.body.removeChild(modalOverlay);
+    };
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'news-cancel-btn';
+    cancelBtn.innerHTML = '❌ Cancel';
+    cancelBtn.onclick = () => {
+      document.body.removeChild(modalOverlay);
+    };
+
+    buttonContainer.appendChild(saveBtn);
+    buttonContainer.appendChild(cancelBtn);
+
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(textarea);
+    modalContent.appendChild(buttonContainer);
+    modalOverlay.appendChild(modalContent);
+    document.body.appendChild(modalOverlay);
+    textarea.focus();
+
     // Close modal when clicking outside
     modalOverlay.addEventListener('click', (e) => {
       if (e.target === modalOverlay) {
